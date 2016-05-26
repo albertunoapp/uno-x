@@ -1,0 +1,32 @@
+{
+	"name": "Uno-X Player",
+	"description": "Uno-X Chrome-based Media Player: Displays UNOapp content for digital signage.",
+	"version": "0.1",
+	"manifest_version": 2,
+	"app": {
+		"background": {
+			"scripts": [
+				"background.js"
+			]
+		},
+		"scripts": [
+			"launcher.js"
+		]
+	},
+	"sandbox": {
+		"pages": [
+			"sandbox.html"
+		],
+		"content_security_policy": "sandbox allow-scripts; script-src 'unsafe-inline' 'unsafe-eval';"
+	},
+	"icons": {
+		"16": "uno-x-16.png",
+		"128": "uno-x-128.png"
+	},
+	"permissions": [
+		"unlimitedStorage",
+		"http://*.dmbdemo.com/",
+		"http://*.unoapp.com/",
+		"http://*.google.com/"
+	]
+}

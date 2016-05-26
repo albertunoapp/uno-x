@@ -1,0 +1,12 @@
+DirectoryIndex _controller.php
+
+ErrorDocument 404 /uno-x/_404.php
+
+RewriteEngine On
+
+# Process *.php URLs through the main controller
+RewriteRule ^(.)*\.php$ _controller.php [NC,L]
+
+# Redirect language folders to index.php
+RewriteRule ^en[\/]?$ _controller.php [L]
+RewriteRule ^fr[\/]?$ _controller.php [L]

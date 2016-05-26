@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title></title>
+<script>
+/* **********************************************************
+ *
+ *  This is the sandbox that handles:
+ *  - Executing player logic
+ *
+ * ********************************************************** */
+
+var _root = {};
+
+// Privatize our scope
+;(function() {
+	_root.timeouts = []; // timeout IDs
+	_root.timestamp = (new Date()).getTime(); // Keep track of most recent response from background script
+
+	var timeout = function(fn, delay) {
+		var id = 0;
+		_root.timeouts.push(id = setTimeout(function() {
+			var i = _root.timeouts.indexOf(id);
+			if (i > -1) {
+				_root.timeouts.splice(i, 1);
+			}
+			fn();
+		}, delay));
+	}
+
+	var clearAllTimeouts = function() {
+		if (!_root.timeouts) return;
+		for (var i = 0; i < _root.timeouts.length; i++) {
+			clearTimeout(_root.timeouts[i]);
+		}
+		_root.timeouts = [];
+	}
+
+	// Continuously wait for request
+	var getRequest = function() {
+		_root.timestamp = (new Date()).getTime();
+		chrome.runtime.sendMessage({action: "fetchNextJavascriptRequest"}, function(response) {
+			// If connection to background script is broken, close the window
+			if (!response) {
+				window.close();
+				return;
+			}
+
+			setTimeout(getRequest, 500); // Should not use timeout() or it will get cleared on player start
+
+			for (var i = 0; i < response.args[i].length; i++) {
+				if (response.action == 'requestJavascriptExecution') {
+					console.log('Executing javascript...');
+					setTimeout(function() {
+						window.data = response.args[i].data;
+						try {
+							eval(response.args[i].script);
+						} catch(e) {
+							console.error('ERROR: Could not evaluate javascript');
+							console.error(e.stack);
+							chrome.runtime.sendMessage({
+								"action": "queueLogEntry",
+								"args": {
+									"type": "error",
+									"name": e.name,
+									"stack": e.stack,
+									"message": e.message
+								}
+							});
+						}
+					}, 0);
+				}
+			}
+		});
+	}
+	getRequest();
+})();
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,538 @@
+{
+	"playListVersion": "1.00.00",
+	"requiredPlayerVersion": "1.00.00",
+	"lastModified": "2016-03-02 09:56:00",
+	"requiredContent": [
+		{
+			"contentID": 1694698,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/C_img_1.jpg"
+		},
+		{
+			"contentID": 1694699,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/C_img_2.jpg"
+		},
+		{
+			"contentID": 1694700,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/C_img_3.jpg"
+		},
+		{
+			"contentID": 1694701,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/C_img_4.jpg"
+		},
+		{
+			"contentID": 1694702,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/C_img_5.jpg"
+		},
+		{
+			"contentID": 1694703,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/C_img_6.jpg"
+		},
+		{
+			"contentID": 1694704,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/C_img_7.jpg"
+		},
+		{
+			"contentID": 1694705,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/C_img_8.jpg"
+		},
+		{
+			"contentID": 1371658,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/A_MENU_1.jpg"
+		},
+		{
+			"contentID": 1371659,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/A_MENU_2.jpg"
+		},
+		{
+			"contentID": 1371660,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/A_MENU_3.jpg"
+		},
+		{
+			"contentID": 1371661,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/A_MENU_4.jpg"
+		},
+		{
+			"contentID": 1371662,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/A_MENU_5.jpg"
+		},
+		{
+			"contentID": 1371663,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/B_MENU_1.jpg"
+		},
+		{
+			"contentID": 1371664,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/B_MENU_2.jpg"
+		},
+		{
+			"contentID": 1371665,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/B_MENU_3.jpg"
+		},
+		{
+			"contentID": 1371666,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/B_MENU_4.jpg"
+		},
+		{
+			"contentID": 1371667,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/B_MENU_5.jpg"
+		},
+		{
+			"contentID": 1694777,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/Family_Business_Edmonton_s_New_Asian_Village.mp4"
+		},
+		{
+			"contentID": 1694779,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/new_asian_village_2.mp4"
+		},
+		{
+			"contentID": 1694780,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/new_asian_village.mp4"
+		},
+		{
+			"contentID": 1408329,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/dmb_marketing.jpg"
+		},
+		{
+			"contentID": 1371695,
+			"url": "http://images.unoapp.com/boxdata/asset12680/images/skin.png"
+		}		
+	],
+	"layouts": {
+		"98": {
+			"layoutID": 98,
+			"label": "Main Layout",
+			"regions": {
+				"54": {
+					"regionID": 54,
+					"label": "Skin",
+					"x": 0,
+					"y": 0,
+					"width": 1080,
+					"height": 1920,
+					"z-index": 2
+				},
+				"55": {
+					"regionID": 55,
+					"label": "Hero",
+					"x": 0,
+					"y": 96,
+					"width": 1080,
+					"height": 513,
+					"z-index": 1
+				},
+				"56": {
+					"regionID": 56,
+					"label": "Footer",
+					"x": 51,
+					"y": 1700,
+					"width": 978,
+					"height": 201,
+					"z-index": 1
+				},
+				"57": {
+					"regionID": 57,
+					"label": "Left Menu",
+					"x": 19,
+					"y": 555,
+					"width": 521,
+					"height": 1140,
+					"z-index": 4
+				},
+				"58": {
+					"regionID": 58,
+					"label": "Right Menu",
+					"x": 540,
+					"y": 555,
+					"width": 521,
+					"height": 1140,
+					"z-index": 4
+				}
+			}
+		}
+	},
+	"schedule":[
+		{
+			"layoutPlaylist": [
+				{
+					"layoutID": 98,
+					"startTime": 0,
+					"endTime": 400
+				}
+			],
+			"playlists": [
+				{
+					"playlistID": 150,
+					"regions": [54,56],
+					"entries": [
+						{
+							"entryID": 572,
+							"regions": [
+								{
+									"regionID": 54,
+									"content": {
+										"type": "image",
+										"contentID": 1371695
+									}
+								},
+								{
+									"regionID": 56,
+									"content": {
+										"type": "image",
+										"contentID": 1408329
+									}
+								}
+							],
+							"startTime": "0",
+							"endTime": "auto"
+						}
+					]
+				},
+				{
+					"playlistID": 151,
+					"regions": [55],
+					"entries": [
+						{
+							"entryID": 573,
+							"regions": [
+								{
+									"regionID": 55,
+									"content": {
+										"type": "video",
+										"contentID": 1694780,
+										"loop": false,
+										"playOnce": true,
+										"muted": true
+									}
+								}
+							],
+							"startTime": "0",
+							"endTime": "5000"
+						},
+						{
+							"entryID": 574,
+							"regions": [
+								{
+									"regionID": 55,
+									"content": {
+										"type": "video",
+										"contentID": 1694779,
+										"loop": false,
+										"playOnce": true,
+										"muted": true
+									}
+								}
+							],
+							"startTime": "5000",
+							"endTime": "10000"
+						},
+						{
+							"entryID": 575,
+							"regions": [
+								{
+									"regionID": 55,
+									"content": {
+										"type": "image",
+										"contentID": 1694698,
+										"loop": false,
+										"playOnce": true
+									}
+								}
+							],
+							"startTime": "10000",
+							"endTime": "13000"
+						},
+						{
+							"entryID": 576,
+							"regions": [
+								{
+									"regionID": 55,
+									"content": {
+										"type": "image",
+										"contentID": 1694699,
+										"loop": false,
+										"playOnce": true
+									}
+								}
+							],
+							"startTime": "13000",
+							"endTime": "16000"
+						},
+						{
+							"entryID": 577,
+							"regions": [
+								{
+									"regionID": 55,
+									"content": {
+										"type": "image",
+										"contentID": 1694700,
+										"loop": false,
+										"playOnce": true
+									}
+								}
+							],
+							"startTime": "16000",
+							"endTime": "19000"
+						},
+						{
+							"entryID": 578,
+							"regions": [
+								{
+									"regionID": 55,
+									"content": {
+										"type": "image",
+										"contentID": 1694701,
+										"loop": false,
+										"playOnce": true
+									}
+								}
+							],
+							"startTime": "19000",
+							"endTime": "22000"
+						},
+						{
+							"entryID": 579,
+							"regions": [
+								{
+									"regionID": 55,
+									"content": {
+										"type": "image",
+										"contentID": 1694702,
+										"loop": false,
+										"playOnce": true
+									}
+								}
+							],
+							"startTime": "22000",
+							"endTime": "25000"
+						},
+						{
+							"entryID": 580,
+							"regions": [
+								{
+									"regionID": 55,
+									"content": {
+										"type": "image",
+										"contentID": 1694703,
+										"loop": false,
+										"playOnce": true
+									}
+								}
+							],
+							"startTime": "25000",
+							"endTime": "28000"
+						},
+						{
+							"entryID": 581,
+							"regions": [
+								{
+									"regionID": 55,
+									"content": {
+										"type": "image",
+										"contentID": 1694704,
+										"loop": false,
+										"playOnce": true
+									}
+								}
+							],
+							"startTime": "28000",
+							"endTime": "31000"
+						},
+						{
+							"entryID": 582,
+							"regions": [
+								{
+									"regionID": 55,
+									"content": {
+										"type": "image",
+										"contentID": 1694705,
+										"loop": false,
+										"playOnce": true
+									}
+								}
+							],
+							"startTime": "31000",
+							"endTime": "34000"
+						},
+						{
+							"entryID": 583,
+							"regions": [
+								{
+									"regionID": 55,
+									"content": {
+										"type": "video",
+										"contentID": 1694777,
+										"loop": false,
+										"playOnce": true,
+										"muted": true
+									}
+								}
+							],
+							"startTime": "34000",
+							"endTime": "37000"
+						}
+					]
+				},
+				{
+					"playlistID": 152,
+					"regions": [57,58],
+					"entries": [
+						{
+							"entryID": 600,
+							"regions": [
+								{
+									"regionID": 57,
+									"content": {
+										"type": "image",
+										"contentID": 1371658
+									}
+								},
+								{
+									"regionID": 58,
+									"content": {
+										"type": "image",
+										"contentID": 1371667
+									}
+								}
+							],
+							"startTime": "0",
+							"endTime": "3000"
+						},
+						{
+							"entryID": 601,
+							"regions": [
+								{
+									"regionID": 58,
+									"content": {
+										"type": "image",
+										"contentID": 1371663
+									}
+								}
+							],
+							"startTime": "3000",
+							"endTime": "6000"
+						},
+						{
+							"entryID": 602,
+							"regions": [
+								{
+									"regionID": 57,
+									"content": {
+										"type": "image",
+										"contentID": 1371659
+									}
+								}
+							],
+							"startTime": "6000",
+							"endTime": "9000"
+						},
+						{
+							"entryID": 603,
+							"regions": [
+								{
+									"regionID": 58,
+									"content": {
+										"type": "image",
+										"contentID": 1371664
+									}
+								}
+							],
+							"startTime": "9000",
+							"endTime": "12000"
+						},
+						{
+							"entryID": 604,
+							"regions": [
+								{
+									"regionID": 57,
+									"content": {
+										"type": "image",
+										"contentID": 1371660
+									}
+								}
+							],
+							"startTime": "12000",
+							"endTime": "15000"
+						},
+						{
+							"entryID": 605,
+							"regions": [
+								{
+									"regionID": 58,
+									"content": {
+										"type": "image",
+										"contentID": 1371665
+									}
+								}
+							],
+							"startTime": "15000",
+							"endTime": "18000"
+						},
+						{
+							"entryID": 606,
+							"regions": [
+								{
+									"regionID": 57,
+									"content": {
+										"type": "image",
+										"contentID": 1371661
+									}
+								}
+							],
+							"startTime": "18000",
+							"endTime": "21000"
+						},
+						{
+							"entryID": 607,
+							"regions": [
+								{
+									"regionID": 58,
+									"content": {
+										"type": "image",
+										"contentID": 1371666
+									}
+								}
+							],
+							"startTime": "21000",
+							"endTime": "24000"
+						},
+						{
+							"entryID": 608,
+							"regions": [
+								{
+									"regionID": 57,
+									"content": {
+										"type": "image",
+										"contentID": 1371662
+									}
+								}
+							],
+							"startTime": "24000",
+							"endTime": "27000"
+						},
+						{
+							"entryID": 609,
+							"regions": [
+								{
+									"regionID": 58,
+									"content": {
+										"type": "image",
+										"contentID": 1371667
+									}
+								}
+							],
+							"startTime": "27000",
+							"endTime": "30000"
+						}
+					]
+				}
+			],
+			"startTime": {
+				"dayOfWeek": 0,
+				"time": "05:00"
+			},
+			"endTime": {
+				"dayOfWeek": 0,
+				"time": "05:00"
+			}
+		}
+	]
+}

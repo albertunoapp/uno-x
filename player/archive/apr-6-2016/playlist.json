@@ -1,0 +1,359 @@
+{
+	"playListVersion": "1.00.00",
+	"requiredPlayerVersion": "1.00.00",
+	"lastModified": "2016-03-02 09:56:00",
+	"requiredContent": [
+		{
+			"contentID": 1457990,
+			"url": "http://images.unoapp.com/boxdata/asset32905/images/dinner1(69).jpg"
+		},
+		{
+			"contentID": 1457996,
+			"url": "http://images.unoapp.com/boxdata/asset32905/images/dinner2(65).jpg"
+		},
+		{
+			"contentID": 1458006,
+			"url": "http://images.unoapp.com/boxdata/asset32905/images/dinner3(98).jpg"
+		},
+		{
+			"contentID": 1020553,
+			"url": "http://images.unoapp.com/boxdata/asset14828/images/NOW_OPEN.mp4"
+		},
+		{
+			"contentID": 1407402,
+			"url": "http://images.unoapp.com/boxdata/asset29295/images/E_ROCKYS_PGA_GOLF.jpg"
+		}
+	],
+	"layouts": {
+		"1": {
+			"layoutID": 1,
+			"label": "Main Layout",
+			"regions": {
+				"10": {
+					"regionID": 10,
+					"label": "Background",
+					"x": 0,
+					"y": 0,
+					"width": 1920,
+					"height": 1080,
+					"z-index": 1
+				},
+				"1": {
+					"regionID": 1,
+					"label": "Video",
+					"x": 756,
+					"y": 201,
+					"width": 1116,
+					"height": 751,
+					"z-index": 2
+				},
+				"2": {
+					"regionID": 2,
+					"label": "Image",
+					"x": 40,
+					"y": 201,
+					"width": 674,
+					"height": 751,
+					"z-index": 2
+				}
+			}
+		},
+		"2": {
+			"layoutID": 2,
+			"label": "Full-Screen Layout",
+			"regions": {
+				"1": {
+					"regionID": 1,
+					"label": "Video",
+					"x": 0,
+					"y": 0,
+					"width": 1920,
+					"height": 1080,
+					"z-index": 2
+				}
+			}
+		}
+	},
+	"schedule":[
+		{
+			"layoutPlaylist": [
+				{
+					"layoutID": 1,
+					"startTime": 0,
+					"endTime": 15000
+				},
+				{
+					"layoutID": 2,
+					"startTime": 15000,
+					"endTime": 30000
+				}
+			],
+			"playlists": [
+				{
+					"playlistID": 1,
+					"regions": [2],
+					"entries": [
+						{
+							"entryID": 271,
+							"regions": [
+								{
+									"regionID": 2,
+									"content": {
+										"type": "image",
+										"contentID": 1457990
+									}
+								}
+							],
+							"startTime": 0,
+							"endTime": 5000
+						},
+						{
+							"entryID": 272,
+							"regions": [
+								{
+									"regionID": 2,
+									"content": {
+										"type": "image",
+										"contentID": 1457996
+									}
+								}
+							],
+							"startTime": 5000,
+							"endTime": 10000
+						},
+						{
+							"entryID": 273,
+							"regions": [
+								{
+									"regionID": 2,
+									"content": {
+										"type": "image",
+										"contentID": 1458006
+									}
+								}
+							],
+							"startTime": 10000,
+							"endTime": 15000
+						},
+						{
+							"entryID": 274,
+							"regions": [
+								{
+									"regionID": 2,
+									"content": {
+										"type": "none"
+									}
+								}
+							],
+							"startTime": 15000,
+							"endTime": 30000
+						}
+					]
+				},
+				{
+					"playlistID": 2,
+					"regions": [1],
+					"entries": [
+						{
+							"entryID": 412,
+							"regions": [
+								{
+									"regionID": 1,
+									"content": {
+										"type": "video",
+										"contentID": 1020553,
+										"loop": "true"
+									}
+								}
+							],
+							"startTime": 0,
+							"endTime": 30000
+						}
+					]
+				},
+				{
+					"playlistID": 3,
+					"regions": [10],
+					"entries": [
+						{
+							"entryID": 132,
+							"regions": [
+								{
+									"regionID": 10,
+									"content": {
+										"type": "image",
+										"contentID": 1407402,
+										"loop": "true"
+									}
+								}
+							],
+							"startTime": 0,
+							"endTime": 15000
+						},
+						{
+							"entryID": 133,
+							"regions": [
+								{
+									"regionID": 10,
+									"content": {
+										"type": "none"
+									}
+								}
+							],
+							"startTime": 15000,
+							"endTime": 30000
+						}
+					]
+				}
+			],
+			"startTime": {
+				"dayOfWeek": 1,
+				"time": "05:00"
+			},
+			"endTime": {
+				"dayOfWeek": 6,
+				"time": "05:00"
+			}
+		},
+		{
+			"layoutPlaylist":[
+				{
+					"layoutID": 1,
+					"startTime": 0,
+					"endTime": 15000
+				},
+				{
+					"layoutID": 1,
+					"startTime": 15000,
+					"endTime": 30000
+				}
+			],
+			"playlists": [
+				{
+					"playlistID": 1,
+					"regions": [2],
+					"entries": [
+						{
+							"entryID": 271,
+							"regions": [
+								{
+									"regionID": 2,
+									"content": {
+										"type": "image",
+										"contentID": 1457990
+									}
+								}
+							],
+							"startTime": 0,
+							"endTime": 5000
+						},
+						{
+							"entryID": 272,
+							"regions": [
+								{
+									"regionID": 2,
+									"content": {
+										"type": "image",
+										"contentID": 1457996
+									}
+								}
+							],
+							"startTime": 5000,
+							"endTime": 10000
+						},
+						{
+							"entryID": 273,
+							"regions": [
+								{
+									"regionID": 2,
+									"content": {
+										"type": "image",
+										"contentID": 1458006
+									}
+								}
+							],
+							"startTime": 10000,
+							"endTime": 15000
+						},
+						{
+							"entryID": 274,
+							"regions": [
+								{
+									"regionID": 2,
+									"content": {
+										"type": "none"
+									}
+								}
+							],
+							"startTime": 15000,
+							"endTime": 30000
+						}
+					]
+				},
+				{
+					"playlistID": 2,
+					"regions": [1],
+					"entries": [
+						{
+							"entryID": 412,
+							"regions": [
+								{
+									"regionID": 1,
+									"content": {
+										"type": "video",
+										"contentID": 1020553,
+										"loop": "true"
+									}
+								}
+							],
+							"startTime": 0,
+							"endTime": 30000
+						}
+					]
+				},
+				{
+					"playlistID": 3,
+					"regions": [10],
+					"entries": [
+						{
+							"entryID": 132,
+							"regions": [
+								{
+									"regionID": 10,
+									"content": {
+										"type": "image",
+										"contentID": 1407402,
+										"loop": "true"
+									}
+								}
+							],
+							"startTime": 0,
+							"endTime": 15000
+						},
+						{
+							"entryID": 133,
+							"regions": [
+								{
+									"regionID": 10,
+									"content": {
+										"type": "none"
+									}
+								}
+							],
+							"startTime": 15000,
+							"endTime": 30000
+						}
+					]
+				}
+			],
+			"startTime": {
+				"dayOfWeek": 6,
+				"time": "05:00"
+			},
+			"endTime": {
+				"dayOfWeek": 1,
+				"time": "05:00"
+			}
+		}
+	]
+}

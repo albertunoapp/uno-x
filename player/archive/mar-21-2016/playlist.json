@@ -1,0 +1,258 @@
+{
+	"playListVersion": "1.00.00",
+	"requiredPlayerVersion": "1.00.00",
+	"lastModified": "2016-03-02 09:56:00",
+	"requiredContent": [
+		{
+			"contentID": 1457990,
+			"url": "http://images.unoapp.com/boxdata/asset32905/images/dinner1(69).jpg"
+		},
+		{
+			"contentID": 1457996,
+			"url": "http://images.unoapp.com/boxdata/asset32905/images/dinner2(65).jpg"
+		},
+		{
+			"contentID": 1458006,
+			"url": "http://images.unoapp.com/boxdata/asset32905/images/dinner3(98).jpg"
+		},
+		{
+			"contentID": 1020553,
+			"url": "http://images.unoapp.com/boxdata/asset14828/images/NOW_OPEN.mp4"
+		},
+		{
+			"contentID": 1407402,
+			"url": "http://images.unoapp.com/boxdata/asset29295/images/E_ROCKYS_PGA_GOLF.jpg"
+		}
+	],
+	"layouts": [
+		{
+			"layoutID": 1,
+			"label": "Main Layout",
+			"regions": [
+				{
+					"regionID": 10,
+					"label": "Background",
+					"x": 0,
+					"y": 0,
+					"width": 1920,
+					"height": 1080,
+					"z-index": 1
+				},
+				{
+					"regionID": 1,
+					"label": "Video",
+					"x": 756,
+					"y": 201,
+					"width": 1116,
+					"height": 751,
+					"z-index": 2
+				},
+				{
+					"regionID": 2,
+					"label": "Image",
+					"x": 40,
+					"y": 201,
+					"width": 674,
+					"height": 751,
+					"z-index": 2
+				}
+			]
+		},
+		{
+			"layoutID": 2,
+			"label": "Full-Screen Layout",
+			"regions": [
+				{
+					"regionID": 1,
+					"label": "Video",
+					"x": 0,
+					"y": 0,
+					"width": 1920,
+					"height": 1080,
+					"z-index": 2
+				}
+			]
+		}
+	],
+	"layoutPlaylist":[
+		{
+			"layoutPlaylistID": 1,
+			"layoutID": 1,
+			"start_time": 0,
+			"end_time": 15000
+		},
+		{
+			"layoutPlaylistID": 2,
+			"layoutID": 1,
+			"start_time": 15000,
+			"end_time": 30000
+		}
+	],
+	"playlists": [
+		{
+			"playlistID": 1,
+			"regions": [2],
+			"entries": [
+				{
+					"entryID": 271,
+					"regions": [
+						{
+							"regionID": 2,
+							"content": {
+								"type": "image",
+								"contentID": 1457990
+							}
+						}
+					],
+					"start_time": 0,
+					"end_time": 5000
+				},
+				{
+					"entryID": 272,
+					"regions": [
+						{
+							"regionID": 2,
+							"content": {
+								"type": "image",
+								"contentID": 1457996
+							}
+						}
+					],
+					"start_time": 5000,
+					"end_time": 10000
+				},
+				{
+					"entryID": 273,
+					"regions": [
+						{
+							"regionID": 2,
+							"content": {
+								"type": "image",
+								"contentID": 1458006
+							}
+						}
+					],
+					"start_time": 10000,
+					"end_time": 15000
+				},
+				{
+					"entryID": 274,
+					"regions": [
+						{
+							"regionID": 2,
+							"content": {
+								"type": "none"
+							}
+						}
+					],
+					"start_time": 15000,
+					"end_time": 30000
+				}
+			],
+			"keyFrames": {
+				"0": {
+					"starts": [271],
+					"ends": []
+				},
+				"5000": {
+					"starts": [272],
+					"ends": [271]
+				},
+				"10000": {
+					"starts": [273],
+					"ends": [272]
+				},
+				"15000": {
+					"starts": [274],
+					"ends": [273]
+				},
+				"30000": {
+					"starts": [],
+					"ends": [274]
+				}
+			},
+			"lastKeyFrame": 30000
+		},
+		{
+			"playlistID": 2,
+			"regions": [1],
+			"entries": [
+				{
+					"entryID": 412,
+					"regions": [
+						{
+							"regionID": 1,
+							"content": {
+								"type": "video",
+								"contentID": 1020553,
+								"loop": "true"
+							}
+						}
+					],
+					"start_time": 0,
+					"end_time": 30000
+				}
+			],
+			"keyFrames": {
+				"0": {
+					"starts": [412],
+					"ends": []
+				},
+				"30000": {
+					"starts": [],
+					"ends": [412]
+				}
+			},
+			"lastKeyFrame": 30000
+		},
+		{
+			"playlistID": 3,
+			"regions": [10],
+			"entries": [
+				{
+					"entryID": 132,
+					"regions": [
+						{
+							"regionID": 10,
+							"content": {
+								"type": "image",
+								"contentID": 1407402,
+								"loop": "true"
+							}
+						}
+					],
+					"start_time": 0,
+					"end_time": 15000
+				},
+				{
+					"entryID": 133,
+					"regions": [
+						{
+							"regionID": 10,
+							"content": {
+								"type": "none"
+							}
+						}
+					],
+					"start_time": 15000,
+					"end_time": 30000
+				}
+			],
+			"keyFrames": {
+				"0": {
+					"starts": [132],
+					"ends": []
+				},
+				"15000": {
+					"starts": [133],
+					"ends": [132]
+				},
+				"30000": {
+					"starts": [],
+					"ends": [133]
+				}
+			},
+			"lastKeyFrame": 30000
+		}
+	]
+}

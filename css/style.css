@@ -1,0 +1,511 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: none;
+}
+
+html, body {
+	min-height: 100%;
+	height: 100%;
+	background-color: #333;
+	box-sizing: border-box;
+	color: #fff;
+	font-family: 'Lato';
+	font-size: 14px;
+	font-weight: 400;
+}
+
+a, a:link, a:active, a:visited {
+	color: #fff;
+	text-decoration: none;
+}
+a {
+	text-decoration: underline;
+}
+
+::-webkit-input-placeholder {
+	color: #999;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+	color: #999;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+	color: #999;
+}
+
+:-ms-input-placeholder {
+	color: #999;
+}
+
+.vertical-center-wrapper {
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: table;
+	width: 100%;
+	min-height: 100%;
+	z-index: 2;
+}
+.vertical-center-content {
+	display: table-cell;
+	vertical-align: middle;
+	padding-top: 20px;
+	box-sizing: border-box;
+}
+
+.wrapper {
+	width: 980px;
+	margin: auto;
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-bottom: 20px;
+	padding-top: 50px;
+	box-sizing: border-box;
+}
+
+.center {
+	text-align: center;
+}
+
+.top-navigation {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 49px;
+	background-color: #fff;
+	color: #666;
+	font-size: 14px;
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	box-sizing: border-box;
+	z-index: 10;
+}
+
+.top-navigation:after {
+	display: table;
+	content: "";
+	clear: both;
+}
+
+.top-navigation .logo-small {
+	float: left;
+}
+
+.navigation-links-left {
+	float: left;
+}
+
+.navigation-links-left .nav-item {
+	float: left;
+	font-size: 14px;
+	line-height: 29px;
+	margin-left: 40px;
+}
+
+.navigation-links-right {
+	float: right;
+}
+
+.navigation-links-right .nav-item {
+	float: right;
+	font-size: 14px;
+	line-height: 29px;
+	margin-left: 40px;
+}
+
+.nav-item a, .nav-item a:link, .nav-item a:active, .nav-item a:visited {
+	color: #666;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+.nav-item a:hover {
+	text-decoration: underline;
+}
+
+.logo-large img {
+	width: 220px;
+	height: 116px;
+}
+
+.logo-small img {
+	width: 55px;
+	height: 29px;
+}
+
+.location-search-wrapper {
+	text-align: center;
+	width: 300px;
+	margin: auto;
+}
+
+.location-search {
+	font-family: 'Lato';
+	font-size: 14px;
+	color: #666;
+	width: 100%;
+	text-align: left;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	background: #fff;
+	box-sizing: border-box;
+}
+
+.location-dropdown {
+	position: absolute;
+	width: 300px;
+	text-align: center;
+	background: #fff;
+	border-top: 2px solid #666;
+	border-bottom: 2px solid #666;
+	box-sizing: border-box;
+	z-index: 2;
+}
+
+.location-dropdown .location-item {
+	font-size: 14px;
+	color: #666;
+	width: 100%;
+	text-align: left;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	background: #fff;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+.location-dropdown .location-item:hover {
+	background-color: #eee;
+}
+
+.location-dropdown .location-item .company-name {
+	font-size: 14px;
+	color: #666;
+}
+
+.location-dropdown .location-item .company-id {
+	font-size: 10px;
+	color: #ccc;
+}
+
+.location-dropdown .location-item-disabled {
+	font-size: 14px;
+	color: #666;
+	width: 100%;
+	text-align: left;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	background: #fff;
+	box-sizing: border-box;
+}
+
+.page-header {
+	color: #fff;
+	font-size: 24px;
+	font-weight: 400;
+	padding-top: 40px;
+	padding-bottom: 20px;
+}
+
+.page-message {
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 24px;
+}
+
+.page-header {
+	color: #fff;
+	font-size: 16px;
+	font-weight: 400;
+	padding-top: 40px;
+	padding-bottom: 20px;
+}
+
+.app-list.disabled {
+	opacity: 0.2;
+	pointer-events: none;
+}
+
+.button-list {
+	width: 300px;
+	margin: auto;
+	padding-top: 20px;
+}
+
+.button-list .button {
+	display: block;
+	width: 100%;
+	float: left;
+}
+
+.button-list .button, .button-list .button:link, .button-list .button:visited, .button-list .button:active {
+	text-decoration: none;
+	font-size: 14px;
+	color: #fff;
+	background-color: #666;
+	text-align: center;
+	text-transform: uppercase;
+	height: 40px;
+	line-height: 40px;
+	cursor: pointer;
+}
+
+.button-list .button:hover {
+	background-color: #999;
+}
+
+.button-list .button.disabled {
+	background-color: #666 !important;
+	cursor: default !important;
+}
+
+.button-list .button.error {
+	background-color: #ed3c11 !important;
+	cursor: default !important;
+}
+
+.button-list .button.success {
+	background-color: #1fa253 !important;
+	cursor: default !important;
+}
+
+.button-list .button + .button {
+	margin-top: 10px;
+}
+
+.button-list .button-left {
+	width: 50%;
+	float: left;
+	border-right: 5px solid #333;
+	box-sizing: border-box;
+}
+
+.button-list .button-right {
+	width: 50%;
+	float: left;
+	border-left: 5px solid #333;
+	box-sizing: border-box;
+}
+
+.button-list:after {
+	display: table;
+	content: "";
+	clear: both;
+}
+
+.button-list .form-row {
+	display: block;
+	width: 100%;
+	float: left;
+}
+
+.button-list .form-row input[type="text"] {
+	font-family: 'Lato';
+	font-size: 14px;
+	color: #666;
+	width: 100%;
+	text-align: left;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	background: #fff;
+	border-bottom: 1px #999 solid;
+	box-sizing: border-box;
+}
+
+.button-list.login .form-row input[type="text"], .button-list.login .form-row input[type="password"] {
+	font-family: 'Lato';
+	font-size: 14px;
+	color: #fff;
+	width: 100%;
+	text-align: left;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	background: transparent;
+	border: none;
+	border-bottom: 1px #ccc solid;
+	box-sizing: border-box;
+}
+
+.button-list .form-row textarea {
+	font-family: 'Lato';
+	font-size: 14px;
+	color: #fff;
+	width: 100%;
+	height: 120px;
+	text-align: left;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	background-color: #fff;
+	border: 1px #ccc solid;
+	box-sizing: border-box;
+}
+
+.button-list .form-row.checkbox {
+	font-size: 10px;
+	text-align: left;
+}
+
+.button-list .form-row.checkbox input[type="checkbox"] {
+	margin-right: 6px;
+}
+
+.button-list .form-row + .form-row {
+	margin-top: 10px;
+}
+
+.button-list .form-row + .button {
+	margin-top: 10px;
+}
+
+.button-list .button + .form-row {
+	margin-top: 10px;
+}
+
+.button-list .label {
+	font-size: 10px;
+	text-transform: uppercase;
+	text-align: left;
+	color: #ccc;
+}
+
+i.fa.fa-exclamation-triangle {
+	color: #ed3c11;
+    position: absolute;
+    line-height: 37px;
+    margin-left: 277px;
+    z-index: 2;
+}
+
+.small-link {
+	padding-top: 10px;
+}
+
+.small-link a, .small-link a:link, .small-link a:active, .small-link a:visited {
+	color: #fff;
+	text-decoration: none;
+}
+
+.small-link a:hover {
+	text-decoration: underline;
+}
+
+.app {
+	display: inline-block;
+	padding: 20px;
+}
+
+.app img {
+	width: 120px;
+	height: 80px;
+}
+
+/* Layout Editor */
+.layout-canvas {
+	position: relative;
+	margin: auto;
+	background-color: #fff;
+	overflow: hidden;
+	z-index: 1;
+}
+
+.region {
+	position: absolute;
+	z-index: 2;
+}
+
+.blink {
+	animation-name: blink;
+	animation-duration: 2s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	-webkit-animation-name: blink;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+	-moz-animation-name: blink;
+	-moz-animation-duration: 2s;
+	-moz-animation-timing-function: linear;
+	-moz-animation-iteration-count: infinite;
+	-o-animation-name: blink;
+	-o-animation-duration: 2s;
+	-o-animation-timing-function: linear;
+	-o-animation-iteration-count: infinite;
+}
+
+@keyframes blink {
+	from {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0.25;
+	}
+}
+@-webkit-keyframes blink {
+	from {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0.25;
+	}
+}
+@-moz-keyframes blink {
+	from {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0.25;
+	}
+}
+@-o-keyframes blink {
+	from {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0.25;
+	}
+}
+
+@media screen and (max-width: 1000px) {
+	.wrapper {
+		width: 100%;
+		max-width: 900px;
+		padding-left: 10px;
+		padding-right: 10px;
+		box-sizing: border-box;
+	}
+}
+
+@media screen and (max-width: 760px) {
+	.logged-in {
+		display: none;
+	}
+}
