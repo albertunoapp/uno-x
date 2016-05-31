@@ -24,9 +24,9 @@ require_once('includes/auth-login.php');
 			<div class="button">
 				Playlists
 			</div>
-			<div class="button">
+			<a href="content.php" class="button">
 				Content
-			</div>
+			</a>
 			<a href="layouts.php" class="button">
 				Layouts
 			</a>

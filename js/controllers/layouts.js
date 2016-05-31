@@ -172,7 +172,7 @@ $(document).ready(function() {
 				$('.button-list.layout-list').prepend($layout_button);
 			}
 		}
-	}
+	};
 
 	// Fetch 8 more layouts!
 	var fetchMoreLayouts = function() {
@@ -226,7 +226,7 @@ $(document).ready(function() {
 			// Whoops, that wasn't supposed to happen...
 			$('.button-list.layout-list .layout-button').text('ERROR!').removeClass('disabled').addClass('error');
 		});
-	}
+	};
 
 	// Open Existing Layout
 	$('.button-list.layouts-main .button.open-layout').click(function() {
@@ -450,7 +450,7 @@ $(document).ready(function() {
 		});
 		$(this).bind('paste', function() { setTimeout(regionHeightChange, 100); });
 		$(this).bind('cut', function() { setTimeout(regionHeightChange, 100); });
-	})
+	});
 	var regionXChange = function() {
 		if ($('.region-x:visible').val() == '') {
 			// Leave empty fields empty
@@ -596,6 +596,7 @@ $(document).ready(function() {
 					$ghost_region.css('z-index', 999);
 				}
 			});
+			// TODO: Add ability to sort regions, which should modify z-index accordingly.
 			$('.button-list.region-list').prepend($region_button);
 		}
 	});
@@ -719,68 +720,53 @@ $(document).ready(function() {
 		// Remove dirty flag before sending data to server
 		delete session.current_layout.dirty;
 		$('.button-list.layout-editor-main .save').text('SAVING...').addClass('disabled');
-		setTimeout(function() {
-			$.ajax({
-				url: path + 'controllers/layouts.php',
-				method: 'POST',
-				data: {
-					'request': 'saveLayout',
-					'payload': session.current_layout
-				},
-				dataType: 'json'
-			}).success(function(response) {
-				if (response && response.result && response.result == 'success') {
-					// SUCCESS!
-					$('.button-list.layout-editor-main .save').text('SAVED!').removeClass('disabled').addClass('success');
-					setTimeout(function() {
-						$('.button-list.layout-editor-main .save').text('SAVE').removeClass('success').addClass('disabled');
-					}, 1000);
-					// Update layout object with new IDs if any
-					if (response.saved_layout) {
-						if (!session.current_layout.z_layoutid_pk) {
-							session.current_layout.z_layoutid_pk = response.saved_layout.z_layoutid_pk;
-							// If new layout, update layouts list
-							if (!session.layouts_list) {
-								session.layouts_list.unshift({
-									'z_layoutid_pk': session.current_layout.z_layoutid_pk,
-									'layout_name': session.current_layout.name
-								});
-							} else {
-								// Update layouts list in case name has changed
-								for (var i = 0; i < session.layouts_list.length; i++) {
-									if (session.layouts_list[i].z_layoutid_pk == session.current_layout.z_layoutid_pk) {
-										session.layouts_list[i].name = session.current_layout.name;
-										break;
-									}
-								}
-							}
-						}
-						if (response.saved_layout.regions) {
-							for (var i = 0; i < response.saved_layout.regions.length; i++) {
-								session.current_layout.regions[i].z_layoutregionid_pk = response.saved_layout.regions[i].z_layoutregionid_pk;
-								session.current_layout.regions[i].z_regionid_pk = response.saved_layout.regions[i].z_regionid_pk;
-								session.current_layout.regions[i].z_layoutid_fk = response.saved_layout.regions[i].z_layoutid_fk;
-							}
+		$.ajax({
+			url: path + 'controllers/layouts.php',
+			method: 'POST',
+			data: {
+				'request': 'saveLayout',
+				'payload': session.current_layout
+			},
+			dataType: 'json'
+		}).success(function(response) {
+			if (response && response.result && response.result == 'success') {
+				// SUCCESS!
+				$('.button-list.layout-editor-main .save').text('SAVED!').removeClass('disabled').addClass('success');
+				setTimeout(function() {
+					$('.button-list.layout-editor-main .save').text('SAVE').removeClass('success').addClass('disabled');
+				}, 1000);
+				// Update layout object with new IDs if any
+				if (response.saved_layout) {
+					if (!session.current_layout.z_layoutid_pk) {
+						session.current_layout.z_layoutid_pk = response.saved_layout.z_layoutid_pk;
+						// Clear layouts cache
+						session.layouts_list = null;
+					}
+					if (response.saved_layout.regions) {
+						for (var i = 0; i < response.saved_layout.regions.length; i++) {
+							session.current_layout.regions[i].z_layoutregionid_pk = response.saved_layout.regions[i].z_layoutregionid_pk;
+							session.current_layout.regions[i].z_regionid_pk = response.saved_layout.regions[i].z_regionid_pk;
+							session.current_layout.regions[i].z_layoutid_fk = response.saved_layout.regions[i].z_layoutid_fk;
 						}
 					}
-				} else {
-					// FAIL!
-					alert(response.message);
-					$('.button-list.layout-editor-main .save').text('ERROR!').removeClass('disabled').addClass('error');
-					setTimeout(function() {
-						$('.button-list.layout-editor-main .save').text('SAVE').removeClass('error');
-					}, 1000);
-					// Re-instate dirty flag so user can attempt to save again
-					session.current_layout.dirty = true;
 				}
-			}).error(function(e) {
-				// SERVER FAILURE!
+			} else {
+				// FAIL!
+				alert(response.message);
 				$('.button-list.layout-editor-main .save').text('ERROR!').removeClass('disabled').addClass('error');
 				setTimeout(function() {
 					$('.button-list.layout-editor-main .save').text('SAVE').removeClass('error');
 				}, 1000);
-			});
-		}, 100);
+				// Re-instate dirty flag so user can attempt to save again
+				session.current_layout.dirty = true;
+			}
+		}).error(function(e) {
+			// SERVER FAILURE!
+			$('.button-list.layout-editor-main .save').text('ERROR!').removeClass('disabled').addClass('error');
+			setTimeout(function() {
+				$('.button-list.layout-editor-main .save').text('SAVE').removeClass('error');
+			}, 1000);
+		});
 	});
 
 	// Close Layout

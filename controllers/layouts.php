@@ -9,6 +9,10 @@ if (!isset($_SESSION['selected_company']) || empty($_SESSION['selected_company']
 	jsonError('Missing company ID!');
 }
 
+if (!isset($_POST['request'])) {
+	jsonError('Missing request!');
+}
+
 if ($_POST['request'] == 'saveLayout') {
 	$payload = $_POST['payload'];
 	$retval = $payload;
@@ -210,7 +214,7 @@ if ($_POST['request'] == 'saveLayout') {
 		'message' => 'Successfully deleted layout!',
 	)));
 } else {
-	jsonError('Missing or unknown request!');
+	jsonError('Unknown request!');
 }
 
 ?>

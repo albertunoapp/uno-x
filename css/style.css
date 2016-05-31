@@ -275,6 +275,11 @@ a {
 	cursor: default !important;
 }
 
+.button-list .button.uploading {
+	background-color: #666 !important;
+	cursor: default !important;
+}
+
 .button-list .button.error {
 	background-color: #ed3c11 !important;
 	cursor: default !important;
@@ -388,6 +393,64 @@ a {
 	text-transform: uppercase;
 	text-align: left;
 	color: #ccc;
+}
+
+.button-list label.button {
+	text-align: left !important;
+}
+
+.button-list label.button .button-text {
+	position: absolute;
+	display: inline-block;
+	width: 300px;
+	height: 40px;
+	text-align: center;
+	z-index: 3;
+}
+
+.button-list label.button form {
+	position: fixed;
+	top: -1000px;
+	opacity: 0;
+}
+
+.button-list label.button .progress-bar {
+	position: absolute;
+	display: inline-block;
+	width: 300px;
+	height: 40px;
+	background-color: #1fa253;
+	z-index: 2;
+}
+
+.button-list.content-list .button.content-button:nth-child(odd) {
+	width: 150px;
+	height: 150px;
+	float: left;
+	background-size: cover;
+	background-position: center center;
+	border-right: 5px solid #333;
+	box-sizing: border-box;
+}
+
+.button-list.content-list .button.content-button:nth-child(even) {
+	width: 150px;
+	height: 150px;
+	float: left;
+	background-size: cover;
+	background-position: center center;
+	border-left: 5px solid #333;
+	box-sizing: border-box;
+}
+
+.button-list.content-list .button.content-button:nth-child(2) {
+	margin-top: 0;
+}
+
+.button-list.content-list .button.content-button.error {
+	width: 100%;
+	height: auto;
+	border: none;
 }
 
 i.fa.fa-exclamation-triangle {
