@@ -18,7 +18,7 @@ require_once('includes/auth-login.php');
 			<div class="button new-layout">
 				Create New Layout
 			</div>
-			<div class="button">
+			<div class="button open-layout">
 				Open Existing Layout
 			</div>
 			<a href="signage.php" class="button">
@@ -34,16 +34,27 @@ require_once('includes/auth-login.php');
 			</div>
 			<div class="form-row">
 				<div class="label">Width</div>
-				<input class="width" type="text" placeholder="Width in pixels">
+				<input class="width" type="text" placeholder="Width in pixels" maxlength="5">
 			</div>
 			<div class="form-row">
 				<div class="label">Height</div>
-				<input class="height" type="text" placeholder="Height in pixels">
+				<input class="height" type="text" placeholder="Height in pixels" maxlength="5">
 			</div>
 			<div class="button button-left ok">
 				OK
 			</div>
 			<div class="button button-right cancel">
+				Cancel
+			</div>
+		</div>
+		<div class="button-list layout-list" style="display: none;">
+			<div class="button button-left">
+				<i class="fa fa-angle-double-left" aria-hidden="true"></i>
+			</div>
+			<div class="button button-right">
+				<i class="fa fa-angle-double-right" aria-hidden="true"></i>
+			</div>
+			<div class="button cancel">
 				Cancel
 			</div>
 		</div>
@@ -57,7 +68,7 @@ require_once('includes/auth-login.php');
 			<div class="button-list layout-editor-main">
 				<div class="form-row">
 					<div class="label">Layout Name</div>
-					<input type="text" class="layout-name" placeholder="My Layout Name" value="Untitled Layout">
+					<input type="text" class="layout-name" placeholder="My Layout Name" value="Untitled Layout" maxlength="255">
 				</div>
 				<div class="button new-region">
 					Add New Region
@@ -78,27 +89,27 @@ require_once('includes/auth-login.php');
 			<div class="button-list new-region">
 				<div class="form-row">
 					<div class="label">Region Name</div>
-					<input type="text" class="region-name" placeholder="My Region Name">
+					<input type="text" class="region-name" placeholder="My Region Name" maxlength="255">
 				</div>
 				<div class="form-row">
 					<div class="label">X Position</div>
 					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-					<input type="text" class="region-x" placeholder="X in pixels">
+					<input type="text" class="region-x" placeholder="X in pixels" maxlength="5">
 				</div>
 				<div class="form-row">
 					<div class="label">Y Position</div>
 					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-					<input type="text" class="region-y" placeholder="Y in pixels">
+					<input type="text" class="region-y" placeholder="Y in pixels" maxlength="5">
 				</div>
 				<div class="form-row">
 					<div class="label">Width</div>
 					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-					<input type="text" class="region-width" placeholder="Width in pixels">
+					<input type="text" class="region-width" placeholder="Width in pixels" maxlength="5">
 				</div>
 				<div class="form-row">
 					<div class="label">Height</div>
 					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-					<input type="text" class="region-height" placeholder="Height in pixels">
+					<input type="text" class="region-height" placeholder="Height in pixels" maxlength="5">
 				</div>
 				<div class="button button-left ok">
 					OK
@@ -115,30 +126,30 @@ require_once('includes/auth-login.php');
 			<div class="button-list edit-region">
 				<div class="form-row">
 					<div class="label">Region Name</div>
-					<input type="text" class="region-name" placeholder="My Region Name">
+					<input type="text" class="region-name" placeholder="My Region Name" maxlength="255">
 				</div>
 				<div class="form-row">
 					<div class="label">X Position</div>
 					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-					<input type="text" class="region-x" placeholder="X in pixels">
+					<input type="text" class="region-x" placeholder="X in pixels" maxlength="5">
 				</div>
 				<div class="form-row">
 					<div class="label">Y Position</div>
 					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-					<input type="text" class="region-y" placeholder="Y in pixels">
+					<input type="text" class="region-y" placeholder="Y in pixels" maxlength="5">
 				</div>
 				<div class="form-row">
 					<div class="label">Width</div>
 					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-					<input type="text" class="region-width" placeholder="Width in pixels">
+					<input type="text" class="region-width" placeholder="Width in pixels" maxlength="5">
 				</div>
 				<div class="form-row">
 					<div class="label">Height</div>
 					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-					<input type="text" class="region-height" placeholder="Height in pixels">
+					<input type="text" class="region-height" placeholder="Height in pixels" maxlength="5">
 				</div>
-				<div class="button button-left save">
-					Save Changes
+				<div class="button button-left ok">
+					OK
 				</div>
 				<div class="button button-right cancel">
 					Cancel

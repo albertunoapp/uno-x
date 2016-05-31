@@ -9,4 +9,11 @@ function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzAB
 	return $str;
 }
 
+function jsonError($message) {
+	die(json_encode(array(
+		'result' => 'error',
+		'message' => $message,
+	)));
+}
+
 ?>

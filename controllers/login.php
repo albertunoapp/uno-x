@@ -11,10 +11,7 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 	$stmt->execute();
 	$stmt->bind_result($z_contactid_pk, $password, $type);
 	if (!$stmt->fetch()) {
-		die(json_encode(array(
-			'result' => 'error',
-			'message' => 'No such user!',
-		)));
+		jsonError('No such user!');
 	}
 	$stmt->close();
 	if ($password == $_POST['password']) {
@@ -46,16 +43,10 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 			'url' => 'home.php',
 		)));
 	} else {
-		die(json_encode(array(
-			'result' => 'error',
-			'message' => 'Wrong password!',
-		)));
+		jsonError('Wrong password!');
 	}
 } else {
-	die(json_encode(array(
-		'result' => 'error',
-		'message' => 'Missing email or password!',
-	)));
+	jsonError('Missing email or password!');
 }
 
 ?>

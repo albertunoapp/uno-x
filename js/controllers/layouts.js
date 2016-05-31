@@ -79,16 +79,206 @@ function generateUniqueColor(used_color_list) {
 
 $(document).ready(function() {
 	var session = {};
+	session.layouts_offset = 0;
+	session.more_next_page = false;
+	session.layouts_list = null;
 	session.divisor = 1;
+	session.current_layout = null;
 	session.current_region_index = null;
 
 	// Main Navigation
-	$('.button.new-layout').click(function() {
+	$('.button-list.layouts-main .button.new-layout').click(function() {
 		$('.page-header').text('Create New Layout');
 		$('.button-list').hide();
 		$('.button-list.new-layout').show();
 		$('.width').val('');
 		$('.height').val('');
+	});
+
+	// Generate the list of layouts! (8 layouts with offset)
+	var renderLayoutList = function() {
+		$('.button-list.layout-list .layout-button').remove();
+		if (!session.layouts_list) return;
+		for (var i = session.layouts_offset * 8; i < session.layouts_list.length && i < (session.layouts_offset * 8) + 8; i++) {
+			var $layout_button = $('<div class="button layout-button" data-id="' + session.layouts_list[i].z_layoutid_pk + '">' + session.layouts_list[i].layout_name + '</div>')
+			$layout_button.click(function() {
+				var z_layoutid_pk = $(this).data('id');
+				$.ajax({
+					url: path + 'controllers/layouts.php',
+					method: 'POST',
+					data: {
+						'request': 'openLayout',
+						'payload': {
+							'z_layoutid_pk': z_layoutid_pk
+						}
+					},
+					dataType: 'json'
+				}).success(function(response) {
+					if (response && response.result && response.result == 'success') {
+						// SUCCESS!
+						// Load layout into layout editor
+						$('.page-header').text('Layout Editor');
+						$('.button-list').hide();
+						$('.layout-editor').show();
+						$('.button-list.layout-editor-main').show();
+						$('.layout-name').val(response.opened_layout.name);
+						session.current_layout = response.opened_layout;
+						session.divisor = 1;
+						while (session.current_layout.width / session.divisor > 320 || session.current_layout.height / session.divisor > 320) {
+							session.divisor++;
+						}
+						$('.layout-canvas').css({
+							'width': session.current_layout.width / session.divisor,
+							'height': session.current_layout.height / session.divisor
+						});
+						var used_colors = [];
+						for (var i = 0; i < session.current_layout.regions.length; i++) {
+							var region = session.current_layout.regions[i];
+							var new_region_obj = new(secret())();
+							new_region_obj['z_layoutregionid_pk'] = region['z_layoutregionid_pk'];
+							new_region_obj['z_regionid_pk'] = region['z_regionid_pk'];
+							new_region_obj['name'] = region['name'];
+							new_region_obj['width'] = region['width'];
+							new_region_obj['height'] = region['height'];
+							new_region_obj['x'] = region['x'];
+							new_region_obj['y'] = region['y'];
+							var new_color = generateUniqueColor(used_colors);
+							used_colors.push(new_color);
+							var $new_region = $('<div class="region"></div>');
+							$new_region.css({
+								'background-color': new_color,
+								'width': parseInt(region.width) / session.divisor,
+								'height': parseInt(region.height) / session.divisor,
+								'left': parseInt(region.x) / session.divisor,
+								'top': parseInt(region.y) / session.divisor,
+								'z-index': parseInt(region.z)
+							});
+							$('.layout-canvas').append($new_region);
+							new_region_obj.constructor('$region', $new_region);
+							session.current_layout.regions[i] = new_region_obj;
+							$('.button-list.layout-editor-main .save').addClass('disabled');
+						}
+					} else {
+						// FAIL!
+						alert(response.message);
+					}
+				}).error(function(e) {
+					// Whoops, that wasn't supposed to happen...
+				});
+			});
+			if ($('.button-list.layout-list .layout-button').length) {
+				$('.button-list.layout-list .layout-button').last().after($layout_button);
+			} else {
+				$('.button-list.layout-list').prepend($layout_button);
+			}
+		}
+	}
+
+	// Fetch 8 more layouts!
+	var fetchMoreLayouts = function() {
+		if (!session.layouts_list) session.layouts_list = [];
+		$('.button-list.layout-list .button-left').addClass('disabled').hide();
+		$('.button-list.layout-list .button-right').addClass('disabled').hide();
+		$('.button-list.layout-list .layout-button').remove();
+		var $loading_button = $('<div class="button layout-button disabled">LOADING...</div>')
+		$('.button-list.layout-list').prepend($loading_button);
+		$.ajax({
+			url: path + 'controllers/layouts.php',
+			method: 'POST',
+			data: {
+				'request': 'getLayouts',
+				'payload': {
+					'offset': Math.floor((session.layouts_list.length - 0.5) / 8) + 1
+				}
+			},
+			dataType: 'json'
+		}).success(function(response) {
+			if (response && response.result && response.result == 'success') {
+				// SUCCESS!
+				$('.button-list.layout-list .layout-button.disabled').remove(); // Remove loading message
+				// Make sure at least some layouts exist in response...
+				if (!response.layouts || !response.layouts.length) {
+					if (session.layouts_list.length == 0) {
+						var $no_layouts_button = $('<div class="button layout-button error">NO LAYOUTS FOUND</div>')
+						$('.button-list.layout-list').prepend($no_layouts_button);
+					}
+					return;
+				}
+				for (var i = 0; i < response.layouts.length; i++) {
+					session.layouts_list.push(response.layouts[i]);
+				}
+				session.layouts_offset = Math.floor((session.layouts_list.length - 0.5 )/ 8);
+				session.more_next_page = response.more_next_page;
+				renderLayoutList();
+				$('.button-list.layout-list .button-left').show();
+				$('.button-list.layout-list .button-right').show();
+				if (session.layouts_offset > 0) {
+					$('.button-list.layout-list .button-left').removeClass('disabled');
+				}
+				if (response.more_next_page) {
+					$('.button-list.layout-list .button-right').removeClass('disabled');
+				}
+			} else {
+				// FAIL!
+				$('.button-list.layout-list .layout-button').text('ERROR!').removeClass('disabled').addClass('error');
+			}
+		}).error(function(e) {
+			// Whoops, that wasn't supposed to happen...
+			$('.button-list.layout-list .layout-button').text('ERROR!').removeClass('disabled').addClass('error');
+		});
+	}
+
+	// Open Existing Layout
+	$('.button-list.layouts-main .button.open-layout').click(function() {
+		$('.page-header').text('Open Existing Layout');
+		$('.button-list').hide();
+		$('.button-list.layout-list').show();
+		$('.button-list.layout-list .button-left').addClass('disabled');
+		$('.button-list.layout-list .button-right').addClass('disabled');
+		if (!session.layouts_list) session.layouts_list = [];
+		if (session.layouts_list.length > 8 || (session.layouts_list.length == 8 && session.more_next_page)) {
+			$('.button-list.layout-list .button-right').removeClass('disabled');
+		}
+		session.layouts_offset = 0;
+		renderLayoutList();
+		// Get layouts from server if we haven't already
+		if (session.layouts_list.length == 0) {
+			$('.button-list.layout-list .button-left').hide();
+			$('.button-list.layout-list .button-right').hide();
+			fetchMoreLayouts();
+		}
+	});
+	$('.button-list.layout-list .button-left').click(function() {
+		if (!session.layouts_list) session.layouts_list = [];
+		if (session.layouts_offset > 0) {
+			session.layouts_offset--;
+			renderLayoutList();
+		}
+		if (session.layouts_offset == 0) {
+			$(this).addClass('disabled');
+		}
+		if (session.layouts_list.length > 8 || (session.layouts_list.length == 8 && session.more_next_page)) {
+			$('.button-list.layout-list .button-right').removeClass('disabled');
+		}
+	});
+	$('.button-list.layout-list .button-right').click(function() {
+		if (!session.layouts_list) session.layouts_list = [];
+		// If we already have enough results to display next page...
+		if (session.layouts_offset < Math.floor((session.layouts_list.length - 0.5) / 8)) {
+			session.layouts_offset++;
+			renderLayoutList();
+			if (!session.more_next_page && session.layouts_offset >= Math.floor((session.layouts_list.length - 0.5) / 8)) {
+				$(this).addClass('disabled');
+			}
+			$('.button-list.layout-list .button-left').removeClass('disabled');
+		} else if (session.more_next_page) {
+			fetchMoreLayouts();
+		}
+	});
+	$('.button-list.layout-list .button.cancel').click(function() {
+		$('.page-header').text('Layouts');
+		$('.button-list').hide();
+		$('.button-list.layouts-main').show();
 	});
 
 	// New Layout
@@ -124,9 +314,12 @@ $(document).ready(function() {
 		$('.layout-editor').show();
 		$('.button-list.layout-editor-main').show();
 		session.current_layout = {};
+		session.current_layout.name = $('.layout-name').val();
 		session.current_layout.regions = [];
 		session.current_layout.width = parseInt($('.width').val());
 		session.current_layout.height = parseInt($('.height').val());
+		session.current_layout.dirty = true;
+		$('.button-list.layout-editor-main .save').removeClass('disabled');
 		session.divisor = 1;
 		while (session.current_layout.width / session.divisor > 320 || session.current_layout.height / session.divisor > 320) {
 			session.divisor++;
@@ -136,6 +329,20 @@ $(document).ready(function() {
 			'height': session.current_layout.height / session.divisor
 		});
 	});
+
+	// Layout Name
+	var layoutNameChange = function() {
+		if (session.current_layout.name != $('.layout-name').val()) {
+			session.current_layout.name = $('.layout-name').val();
+			session.current_layout.dirty = true;
+			$('.button-list.layout-editor-main .save').removeClass('disabled');
+		}
+	};
+	$('.layout-name').keydown(layoutNameChange);
+	$('.layout-name').keyup(layoutNameChange);
+	$('.layout-name').change(layoutNameChange);
+	$('.layout-name').bind('paste', function() { setTimeout(layoutNameChange, 100); });
+	$('.layout-name').bind('cut', function() { setTimeout(layoutNameChange, 100); });
 
 	// New region
 	$('.button-list.layout-editor-main .button.new-region').click(function() {
@@ -217,7 +424,8 @@ $(document).ready(function() {
 				$(this).val(parseInt($(this).val()));
 			}
 		});
-		$(this).bind('paste', regionWidthChange);
+		$(this).bind('paste', function() { setTimeout(regionWidthChange, 100); });
+		$(this).bind('cut', function() { setTimeout(regionWidthChange, 100); });
 	})
 	var regionHeightChange = function() {
 		if ($('.region-height:visible').val() == '') {
@@ -240,9 +448,9 @@ $(document).ready(function() {
 				$(this).val(parseInt($(this).val()));
 			}
 		});
-		$(this).bind('paste', regionHeightChange);
+		$(this).bind('paste', function() { setTimeout(regionHeightChange, 100); });
+		$(this).bind('cut', function() { setTimeout(regionHeightChange, 100); });
 	})
-	$('.region-height:visible').bind('paste', regionHeightChange);
 	var regionXChange = function() {
 		if ($('.region-x:visible').val() == '') {
 			// Leave empty fields empty
@@ -264,7 +472,8 @@ $(document).ready(function() {
 				$(this).val(parseInt($(this).val()));
 			}
 		});
-		$(this).bind('paste', regionXChange);
+		$(this).bind('paste', function() { setTimeout(regionXChange, 100); });
+		$(this).bind('cut', function() { setTimeout(regionXChange, 100); });
 	})
 	var regionYChange = function() {
 		if ($('.region-y:visible').val() == '') {
@@ -287,8 +496,9 @@ $(document).ready(function() {
 				$(this).val(parseInt($(this).val()));
 			}
 		});
-		$(this).bind('paste', regionYChange);
-	})
+		$(this).bind('paste', function() { setTimeout(regionYChange, 100); });
+		$(this).bind('cut', function() { setTimeout(regionYChange, 100); });
+	});
 	$('.button-list.new-region .button.ok').click(function() {
 		if (parseInt($('.region-y:visible').val()) < 0 || parseInt($('.region-y:visible').val()) > session.current_layout.height - 1) {
 			alert('Y position must be valid integer between 0 - ' + (session.current_layout.height - 1) + '.');
@@ -343,6 +553,8 @@ $(document).ready(function() {
 		new_region_obj.z = new_z;
 		new_region_obj.constructor('$region', $new_region);
 		session.current_layout.regions.push(new_region_obj);
+		session.current_layout.dirty = true;
+		$('.button-list.layout-editor-main .save').removeClass('disabled');
 		$('.sub-header').text('Main');
 		$('.button-list').hide();
 		$('.button-list.layout-editor-main').show();
@@ -393,7 +605,7 @@ $(document).ready(function() {
 		$('.button-list').hide();
 		$('.button-list.layout-editor-main').show();
 	});
-	$('.button-list.edit-region .button.save').click(function() {
+	$('.button-list.edit-region .button.ok').click(function() {
 		if (parseInt($('.region-y:visible').val()) < 0 || parseInt($('.region-y:visible').val()) > session.current_layout.height - 1) {
 			alert('Y position must be valid integer between 0 - ' + (session.current_layout.height - 1) + '.');
 			return;
@@ -427,6 +639,8 @@ $(document).ready(function() {
 		current_region.x = parseInt($('.region-x:visible').val());
 		current_region.y = parseInt($('.region-y:visible').val());
 		session.current_region_index = null;
+		session.current_layout.dirty = true;
+		$('.button-list.layout-editor-main .save').removeClass('disabled');
 		$('.sub-header').text('Main');
 		$('.button-list').hide();
 		$('.button-list.layout-editor-main').show();
@@ -438,27 +652,144 @@ $(document).ready(function() {
 		$('.sub-header').text('Main');
 		$('.button-list').hide();
 		$('.button-list.layout-editor-main').show();
-		$('.region.blink').removeClass('blink').css('z-index', current_region.z);
+		$('.region.blink').css({
+			'width': current_region.width / session.divisor,
+			'height': current_region.height / session.divisor,
+			'left': current_region.x / session.divisor,
+			'top': current_region.y / session.divisor,
+			'z-index': current_region.z
+		}).removeClass('blink');
+	});
+
+	// Delete Layout
+	$('.button-list.layout-editor-main .delete-layout').click(function() {
+		if (confirm('Are you sure you want to delete this layout?')) {
+			// If this layout was never saved before, just close it.
+			if (!session.current_layout.z_layoutid_pk) {
+				$('.button-list').hide();
+				$('.layout-editor').hide();
+				$('.region').remove();
+				session.current_layout = null;
+				session.divisor = 1;
+				session.current_region_index = null;
+				$('.page-header').text('Layouts');
+				$('.button-list.layouts-main').show();
+			} else {
+				//Delete the layout
+				$.ajax({
+					url: path + 'controllers/layouts.php',
+					method: 'POST',
+					data: {
+						'request': 'deleteLayout',
+						'payload': {
+							'z_layoutid_pk': session.current_layout.z_layoutid_pk
+						}
+					},
+					dataType: 'json'
+				}).success(function(response) {
+					if (response && response.result && response.result == 'success') {
+						// SUCCESS!
+						// Close the layout
+						$('.button-list').hide();
+						$('.layout-editor').hide();
+						$('.region').remove();
+						session.current_layout = null;
+						session.divisor = 1;
+						session.current_region_index = null;
+						$('.page-header').text('Layouts');
+						$('.button-list.layouts-main').show();
+						// Clear layouts cache
+						session.layouts_list = null;
+					} else {
+						// FAIL!
+						alert(response.message);
+					}
+				}).error(function(e) {
+					// Whoops, that wasn't supposed to happen...
+				});
+			}
+		}
 	});
 
 	// Save Layout
 	$('.button-list.layout-editor-main .save').click(function() {
+		if (!session.current_layout.dirty) {
+			return;
+		}
+		// Remove dirty flag before sending data to server
+		delete session.current_layout.dirty;
 		$('.button-list.layout-editor-main .save').text('SAVING...').addClass('disabled');
 		setTimeout(function() {
-			$('.button-list.layout-editor-main .save').text('SAVED!').removeClass('disabled').addClass('success');
-			setTimeout(function() {
-				$('.button-list.layout-editor-main .save').text('SAVE').removeClass('success');
-			}, 1000);
-		}, 750);
+			$.ajax({
+				url: path + 'controllers/layouts.php',
+				method: 'POST',
+				data: {
+					'request': 'saveLayout',
+					'payload': session.current_layout
+				},
+				dataType: 'json'
+			}).success(function(response) {
+				if (response && response.result && response.result == 'success') {
+					// SUCCESS!
+					$('.button-list.layout-editor-main .save').text('SAVED!').removeClass('disabled').addClass('success');
+					setTimeout(function() {
+						$('.button-list.layout-editor-main .save').text('SAVE').removeClass('success').addClass('disabled');
+					}, 1000);
+					// Update layout object with new IDs if any
+					if (response.saved_layout) {
+						if (!session.current_layout.z_layoutid_pk) {
+							session.current_layout.z_layoutid_pk = response.saved_layout.z_layoutid_pk;
+							// If new layout, update layouts list
+							if (!session.layouts_list) {
+								session.layouts_list.unshift({
+									'z_layoutid_pk': session.current_layout.z_layoutid_pk,
+									'layout_name': session.current_layout.name
+								});
+							} else {
+								// Update layouts list in case name has changed
+								for (var i = 0; i < session.layouts_list.length; i++) {
+									if (session.layouts_list[i].z_layoutid_pk == session.current_layout.z_layoutid_pk) {
+										session.layouts_list[i].name = session.current_layout.name;
+										break;
+									}
+								}
+							}
+						}
+						if (response.saved_layout.regions) {
+							for (var i = 0; i < response.saved_layout.regions.length; i++) {
+								session.current_layout.regions[i].z_layoutregionid_pk = response.saved_layout.regions[i].z_layoutregionid_pk;
+								session.current_layout.regions[i].z_regionid_pk = response.saved_layout.regions[i].z_regionid_pk;
+								session.current_layout.regions[i].z_layoutid_fk = response.saved_layout.regions[i].z_layoutid_fk;
+							}
+						}
+					}
+				} else {
+					// FAIL!
+					alert(response.message);
+					$('.button-list.layout-editor-main .save').text('ERROR!').removeClass('disabled').addClass('error');
+					setTimeout(function() {
+						$('.button-list.layout-editor-main .save').text('SAVE').removeClass('error');
+					}, 1000);
+					// Re-instate dirty flag so user can attempt to save again
+					session.current_layout.dirty = true;
+				}
+			}).error(function(e) {
+				// SERVER FAILURE!
+				$('.button-list.layout-editor-main .save').text('ERROR!').removeClass('disabled').addClass('error');
+				setTimeout(function() {
+					$('.button-list.layout-editor-main .save').text('SAVE').removeClass('error');
+				}, 1000);
+			});
+		}, 100);
 	});
 
 	// Close Layout
 	$('.button-list.layout-editor-main .close').click(function() {
-		if (confirm('Are you sure you want to close this layout? You will lose any unsaved changes!')) {
+		if (!session.current_layout.dirty || confirm('Are you sure you want to close this layout? You will lose any unsaved changes!')) {
 			$('.button-list').hide();
 			$('.layout-editor').hide();
 			$('.region').remove();
-			session = {};
+			session.current_layout = null;
 			session.divisor = 1;
 			session.current_region_index = null;
 			$('.page-header').text('Layouts');

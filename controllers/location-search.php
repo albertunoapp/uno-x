@@ -6,10 +6,7 @@ require_once('includes/init-session.php');
 require_once('includes/utilities.php');
 
 if ($_SESSION['type'] != 'Staff') {
-	die(json_encode(array(
-		'result' => 'error',
-		'message' => 'You do not have access to this feature!',
-	)));
+	jsonError('You do not have access to this feature!');
 }
 
 if (!empty($_POST['q']) || $_POST['q'] === '0') {
@@ -41,10 +38,7 @@ if (!empty($_POST['q']) || $_POST['q'] === '0') {
 		'companies' => $companies,
 	)));
 } else {
-	die(json_encode(array(
-		'result' => 'error',
-		'message' => 'Missing search criteria!',
-	)));
+	jsonError('Missing search criteria!');
 }
 
 ?>

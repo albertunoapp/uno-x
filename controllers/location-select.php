@@ -12,6 +12,15 @@ function createAccount($z_companyid_pk, $company_name) {
 	$stmt->bind_param('isss', $z_companyid_pk, $company_name, $current_date, $current_date);
 	$stmt->execute();
 	$stmt->close();
+	$query = "SELECT z_accountid_pk FROM ux_account_mst WHERE z_companyid_fk = ? LIMIT 0, 1;";
+	$stmt = $mysqli->prepare($query);
+	$stmt->bind_param('i', $z_companyid_pk);
+	$stmt->execute();
+	$stmt->bind_result($z_accountid_pk);
+	if ($stmt->fetch()) {
+		$_SESSION['selected_company']['z_accountid_pk'] = $z_accountid_pk;
+	}
+	$stmt->close();
 }
 
 if (!empty($_POST['z_companyid_pk'])) {
@@ -38,22 +47,13 @@ if (!empty($_POST['z_companyid_pk'])) {
 					)));
 				}
 			}
-			die(json_encode(array(
-				'result' => 'error',
-				'message' => 'You don\'t have access to this company!',
-			)));
+			jsonError('You don\'t have access to this company!');
 		}
 	} else {
-		die(json_encode(array(
-			'result' => 'error',
-			'message' => 'Invalid company ID!',
-		)));
+		jsonError('Invalid company ID!');
 	}
 } else {
-	die(json_encode(array(
-		'result' => 'error',
-		'message' => 'Missing company ID!',
-	)));
+	jsonError('Missing company ID!');
 }
 
 ?>
