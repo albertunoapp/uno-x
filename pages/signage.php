@@ -21,9 +21,9 @@ require_once('includes/auth-login.php');
 			<div class="button">
 				Box Groups
 			</div>
-			<div class="button">
+			<a href="playlists.php" class="button">
 				Playlists
-			</div>
+			</a>
 			<a href="content.php" class="button">
 				Content
 			</a>

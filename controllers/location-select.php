@@ -23,7 +23,7 @@ function createAccount($z_companyid_pk, $company_name) {
 	$stmt->close();
 }
 
-if (!isset($_POST['z_companyid_pk'])) {
+if (isset($_POST['z_companyid_pk'])) {
 	$z_companyid_pk = intval($_POST['z_companyid_pk']);
 	if (is_numeric($_POST['z_companyid_pk']) && $z_companyid_pk == $_POST['z_companyid_pk']) {
 		if ($_SESSION['type'] == 'Staff') {

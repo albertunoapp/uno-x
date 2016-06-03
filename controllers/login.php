@@ -4,6 +4,10 @@ require_once('includes/init-database.php');
 require_once('includes/init-session.php');
 require_once('includes/utilities.php');
 
+if (!isset($_POST['email']) || !isset($_POST['password'])) {
+	jsonError('Missing email or password!');
+}
+
 if (!empty($_POST['email']) && !empty($_POST['password'])) {
 	$query = "SELECT z_contactid_pk, password, type FROM contact_mst WHERE contact_prmemail = ?;";
 	$stmt = $mysqli->prepare($query);

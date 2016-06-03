@@ -128,7 +128,7 @@ $(document).ready(function() {
 				renderContentList();
 				$('.button-list.content-list .button-left').show();
 				$('.button-list.content-list .button-right').show();
-				if (session.contents_offset > 0) {
+				if (session.content_offset > 0) {
 					$('.button-list.content-list .button-left').removeClass('disabled');
 				}
 				if (response.more_next_page) {
@@ -161,6 +161,35 @@ $(document).ready(function() {
 		if (session.content_list.length == 0) {
 			$('.button-list.content-list .button-left').hide();
 			$('.button-list.content-list .button-right').hide();
+			fetchMoreContent();
+		}
+	});
+
+	$('.button-list.content-list .button-left').click(function() {
+		if (!session.content_list) session.content_list = [];
+		if (session.content_offset > 0) {
+			session.content_offset--;
+			renderContentList();
+		}
+		if (session.content_offset == 0) {
+			$(this).addClass('disabled');
+		}
+		if (session.content_list.length > 8 || (session.content_list.length == 8 && session.more_next_page)) {
+			$('.button-list.content-list .button-right').removeClass('disabled');
+		}
+	});
+
+	$('.button-list.content-list .button-right').click(function() {
+		if (!session.content_list) session.content_list = [];
+		// If we already have enough results to display next page...
+		if (session.content_offset < Math.floor((session.content_list.length - 0.5) / 8)) {
+			session.content_offset++;
+			renderContentList();
+			if (!session.more_next_page && session.content_offset >= Math.floor((session.content_list.length - 0.5) / 8)) {
+				$(this).addClass('disabled');
+			}
+			$('.button-list.content-list .button-left').removeClass('disabled');
+		} else if (session.more_next_page) {
 			fetchMoreContent();
 		}
 	});

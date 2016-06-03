@@ -9,7 +9,7 @@ if ($_SESSION['type'] != 'Staff') {
 	jsonError('You do not have access to this feature!');
 }
 
-if (!isset($_POST['q']) && $_POST['q'] != '') {
+if (isset($_POST['q']) && $_POST['q'] != '') {
 	$like = '%' . addcslashes($_POST['q'], '%_') . '%';
 	$q = intval($_POST['q']);
 	if (is_numeric($_POST['q']) && $q == $_POST['q']) {
