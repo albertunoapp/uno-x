@@ -64,18 +64,23 @@ if ($_POST['request'] == 'uploadContent') {
 	$payload = $_POST['payload'];
 	$z_accountid_pk = $_SESSION['selected_company']['z_accountid_pk'];
 	$offset = 0;
-	if (!empty($payload['offset']) && is_numeric($payload['offset'])) {
-		$offset = intval($payload['offset']) * 8;
+	$results_per_page = 8;
+	if (!empty($payload['results_per_page']) && is_numeric($payload['results_per_page'])) {
+		$results_per_page = intval($payload['results_per_page']);
 	}
-	$query = "SELECT z_contentid_pk, url FROM ux_content_mst WHERE z_accountid_fk = ? AND deleted = 0 ORDER BY z_contentid_pk DESC LIMIT ?, 9;";
+	$results_per_page_plus_one = $results_per_page + 1;
+	if (!empty($payload['offset']) && is_numeric($payload['offset'])) {
+		$offset = intval($payload['offset']) * $results_per_page;
+	}
+	$query = "SELECT z_contentid_pk, url FROM ux_content_mst WHERE z_accountid_fk = ? AND deleted = 0 ORDER BY z_contentid_pk DESC LIMIT ?, ?;";
 	$stmt = $mysqli->prepare($query);
-	$stmt->bind_param('ii', $z_accountid_pk, $offset);
+	$stmt->bind_param('iii', $z_accountid_pk, $offset, $results_per_page_plus_one);
 	$stmt->execute();
 	$stmt->bind_result($z_contentid_pk, $url);
 	$content = array();
 	$more_next_page = false;
 	while ($stmt->fetch()) {
-		if (count($content) >= 8) {
+		if (count($content) >= $results_per_page) {
 			$more_next_page = true;
 			break;
 		}

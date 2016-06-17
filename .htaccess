@@ -4,6 +4,9 @@ ErrorDocument 404 /uno-x/_404.php
 
 RewriteEngine On
 
+# Ignore "player" directory
+RewriteRule ^(player)($|/) - [L]
+
 # Process *.php URLs through the main controller
 RewriteRule ^(.)*\.php$ _controller.php [NC,L]
 

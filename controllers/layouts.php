@@ -17,20 +17,20 @@ if ($_POST['request'] == 'saveLayout') {
 	$payload = $_POST['payload'];
 	$retval = $payload;
 	if (!empty($payload['name']) && !empty($payload['width']) && !empty($payload['height']) && is_numeric($payload['width']) && is_numeric($payload['height'])) {
-		// Check if name has been already taken
 		$z_accountid_pk = $_SESSION['selected_company']['z_accountid_pk'];
-		$query = "SELECT z_layoutid_pk FROM ux_layout_mst WHERE layout_name = ? AND z_accountid_fk = ? AND deleted = 0 LIMIT 0, 1;";
-		$stmt = $mysqli->prepare($query);
-		$stmt->bind_param('si', $payload['name'], $z_accountid_pk);
-		$stmt->execute();
-		$stmt->bind_result($z_layoutid_pk);
-		if ($stmt->fetch()) {
-			jsonError('Layout name already exists! Please set a unique layout name.');
-		}
-		$stmt->close();
+		// Save new layout
+		if (empty($payload['z_layoutid_pk']) || !is_numeric($payload['z_layoutid_pk'])) {
+			// Check if name has been already taken
+			$query = "SELECT z_layoutid_pk FROM ux_layout_mst WHERE layout_name = ? AND z_accountid_fk = ? AND deleted = 0 LIMIT 0, 1;";
+			$stmt = $mysqli->prepare($query);
+			$stmt->bind_param('si', $payload['name'], $z_accountid_pk);
+			$stmt->execute();
+			$stmt->bind_result($z_layoutid_pk);
+			if ($stmt->fetch()) {
+				jsonError('Layout name already exists! Please set a unique layout name.');
+			}
+			$stmt->close();
 
-		$z_layoutid_pk = 0;
-		if (empty($payload['z_layoutid_pk']) || !is_numeric($payload['z_layoutid_pk'])){
 			$query = "INSERT INTO ux_layout_mst (z_accountid_fk, layout_name, width, height, date_added, date_modified) VALUES (?, ?, ?, ?, ?, ?);";
 			$stmt = $mysqli->prepare($query);
 			$current_date = date("Y-m-d H:i:s");
@@ -39,7 +39,19 @@ if ($_POST['request'] == 'saveLayout') {
 			$z_layoutid_pk = $stmt->insert_id;
 			$retval['z_layoutid_pk'] = '' . $z_layoutid_pk;
 			$stmt->close();
+		// Update existing layout
 		} else {
+			// Check if name has been already taken
+			$query = "SELECT z_layoutid_pk FROM ux_layout_mst WHERE layout_name = ? AND z_accountid_fk = ? AND z_layoutid_pk != ? AND deleted = 0 LIMIT 0, 1;";
+			$stmt = $mysqli->prepare($query);
+			$stmt->bind_param('sii', $payload['name'], $z_accountid_pk, $payload['z_layoutid_pk']);
+			$stmt->execute();
+			$stmt->bind_result($z_layoutid_pk);
+			if ($stmt->fetch()) {
+				jsonError('Layout name already exists! Please set a unique layout name.');
+			}
+			$stmt->close();
+
 			$query = "UPDATE ux_layout_mst SET layout_name = ?, width = ?, height = ?, date_modified = ? WHERE z_layoutid_pk = ? AND z_accountid_fk = ? AND deleted = '0';";
 			$stmt = $mysqli->prepare($query);
 			$current_date = date("Y-m-d H:i:s");
@@ -89,7 +101,7 @@ if ($_POST['request'] == 'saveLayout') {
 						$query = "INSERT INTO ux_layout_region_mst (z_regionid_fk, z_layoutid_fk, width, height, x, y, z, date_added, date_modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 						$stmt = $mysqli->prepare($query);
 						$current_date = date("Y-m-d H:i:s");
-						$stmt->bind_param('iiiiiiiss', $current_region['z_regionid_pk'], $z_layoutid_pk, $current_region['width'], $current_region['height'], $current_region['x'], $current_region['y'], $current_date, $current_date);
+						$stmt->bind_param('iiiiiiiss', $current_region['z_regionid_pk'], $z_layoutid_pk, $current_region['width'], $current_region['height'], $current_region['x'], $current_region['y'], $current_region['z'], $current_date, $current_date);
 						$stmt->execute();
 						$z_layoutregionid_pk = $stmt->insert_id;
 						$retval['regions'][$i]['z_layoutregionid_pk'] = '' . $z_layoutregionid_pk;
@@ -100,11 +112,30 @@ if ($_POST['request'] == 'saveLayout') {
 						$query = "UPDATE ux_layout_region_mst SET width = ?, height = ?, x = ?, y = ?, z = ?, date_modified = ? WHERE z_layoutregionid_pk = ? AND z_regionid_fk = ? AND z_layoutid_fk = ? AND deleted = '0';";
 						$stmt = $mysqli->prepare($query);
 						$current_date = date("Y-m-d H:i:s");
- 						$stmt->bind_param('iiiiisiii', $current_region['width'], $current_region['height'], $current_region['x'], $current_region['y'], $current_region['z'], $current_date, $current_region['z_layoutregionid_pk'], $current_region['z_regionid_fk'], $current_region['z_layoutid_fk']);
+ 						$stmt->bind_param('iiiiisiii', $current_region['width'], $current_region['height'], $current_region['x'], $current_region['y'], $current_region['z'], $current_date, $current_region['z_layoutregionid_pk'], $current_region['z_regionid_pk'], $current_region['z_layoutid_fk']);
 						$stmt->execute();
 						$stmt->close();
 					}
 				}
+			}
+		}
+		// Delete regions
+		if (!empty($payload['deleted_regions']) && is_array($payload['deleted_regions'])) {
+			for ($i = 0; $i < count($payload['deleted_regions']); $i++) {
+				$current_region = $payload['deleted_regions'][$i];
+				// This is the original region associated with its original layout
+				if (!empty($current_region['z_layoutid_fk']) && $current_region['z_layoutid_fk'] == $z_layoutid_pk) {
+					$query = "UPDATE ux_region_mst SET deleted = '1' WHERE z_regionid_pk = ? AND z_layoutid_fk = ? AND deleted = '0';";
+					$stmt = $mysqli->prepare($query);
+					$stmt->bind_param('ii', $current_region['z_regionid_pk'], $current_region['z_layoutid_fk']);
+					$stmt->execute();
+					$stmt->close();
+				}
+				$query = "UPDATE ux_layout_region_mst SET deleted = '1' WHERE z_layoutregionid_pk = ? AND z_regionid_fk = ? AND z_layoutid_fk = ? AND deleted = '0';";
+				$stmt = $mysqli->prepare($query);
+				$stmt->bind_param('iii', $current_region['z_layoutregionid_pk'], $current_region['z_regionid_pk'], $current_region['z_layoutid_fk']);
+				$stmt->execute();
+				$stmt->close();
 			}
 		}
 		die(json_encode(array(
@@ -119,10 +150,10 @@ if ($_POST['request'] == 'saveLayout') {
 	$z_accountid_pk = $_SESSION['selected_company']['z_accountid_pk'];
 	$offset = 0;
 	$results_per_page = 8;
-	$results_per_page_plus_one = $results_per_page + 1;
 	if (!empty($payload['results_per_page']) && is_numeric($payload['results_per_page'])) {
 		$results_per_page = intval($payload['results_per_page']);
 	}
+	$results_per_page_plus_one = $results_per_page + 1;
 	if (!empty($payload['offset']) && is_numeric($payload['offset'])) {
 		$offset = intval($payload['offset']) * $results_per_page;
 	}
@@ -172,15 +203,16 @@ if ($_POST['request'] == 'saveLayout') {
 		jsonError('Layout not found!');
 	}
 	$stmt->close();
-	$query = "SELECT r.`z_regionid_pk`, lr.`z_layoutregionid_pk`, r.`region_name`, lr.`width`, lr.`height`, lr.`x`, lr.`y`, lr.`z` FROM ux_region_mst r, ux_layout_region_mst lr WHERE lr.`z_layoutid_fk` = ? AND lr.`z_regionid_fk` = r.`z_regionid_pk` AND r.`deleted` = 0 AND lr.`deleted` = 0 LIMIT 0, 1000;";
+	$query = "SELECT r.`z_regionid_pk`, lr.`z_layoutregionid_pk`, lr.`z_layoutid_fk`, r.`region_name`, lr.`width`, lr.`height`, lr.`x`, lr.`y`, lr.`z` FROM ux_region_mst r, ux_layout_region_mst lr WHERE lr.`z_layoutid_fk` = ? AND lr.`z_regionid_fk` = r.`z_regionid_pk` AND r.`deleted` = 0 AND lr.`deleted` = 0 ORDER BY lr.`z`, lr.`z_layoutregionid_pk` LIMIT 0, 1000;";
 	$stmt = $mysqli->prepare($query);
 	$stmt->bind_param('i', $payload['z_layoutid_pk']);
 	$stmt->execute();
-	$stmt->bind_result($z_regionid_pk, $z_layoutregionid_pk, $region_name, $region_width, $region_height, $region_x, $region_y, $region_z);
+	$stmt->bind_result($z_regionid_pk, $z_layoutregionid_pk, $z_layoutid_fk, $region_name, $region_width, $region_height, $region_x, $region_y, $region_z);
 	while ($stmt->fetch()) {
 		$layout['regions'][] = array(
 			'z_regionid_pk' => $z_regionid_pk,
 			'z_layoutregionid_pk' => $z_layoutregionid_pk,
+			'z_layoutid_fk' => $z_layoutid_fk,
 			'name' => $region_name,
 			'width' => $region_width,
 			'height' => $region_height,

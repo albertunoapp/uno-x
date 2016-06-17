@@ -53,7 +53,7 @@ require_once('includes/auth-login.php');
 		position: absolute;
 		top: 0;
 		width: 11px;
-		height: 27px;
+		height: 28px;
 		border: 1px solid #f00;
 		background-color: rgba(255,0,0,0.25);
 		box-sizing: border-box;
@@ -120,7 +120,7 @@ require_once('includes/auth-login.php');
 	.layout-label {
 		display: block;
 		width: 150px;
-		height: 19px;
+		height: 20px;
 		text-align: left;
 		padding-left: 10px;
 		border-right: 1px solid #ddd;
@@ -133,7 +133,7 @@ require_once('includes/auth-login.php');
 	.playlist-label {
 		display: block;
 		width: 150px;
-		height: 19px;
+		height: 20px;
 		text-align: left;
 		padding-left: 10px;
 		border-right: 1px solid #ddd;
@@ -146,7 +146,7 @@ require_once('includes/auth-login.php');
 	.layer-label {
 		display: block;
 		width: 150px;
-		height: 19px;
+		height: 20px;
 		text-align: right;
 		border-right: 1px solid #ddd;
 		padding-right: 10px;
@@ -198,29 +198,45 @@ require_once('includes/auth-login.php');
 		text-align: right;
 		padding-right: 7px;
 		box-sizing: border-box;
-		height: 11px;
+		height: 20px;
+		padding-top: 2px;
+		padding-bottom: 2px;
 	}
 
-	.gui .new-playlist {
-		display: inline-block;
-		width: 13px;
-		height: 11px;
-		margin-bottom: 4px;
-		margin-right: 4px;
-		background-image: url('../images/new-folder.png');
-		cursor: pointer;
-		vertical-align: bottom;
+	.layer-buttons > div:hover {
+		filter: invert(50%);
+		-o-filter: invert(50%);
+		-webkit-filter: invert(50%);
+		-moz-filter: invert(50%);
+		-ms-filter: invert(50%);
 	}
 
-	.new-layer {
+	.gui .merge-region {
 		display: inline-block;
 		width: 13px;
-		height: 11px;
-		margin-bottom: 4px;
+		height: 16px;
 		margin-right: 4px;
-		background-image: url('../images/new-layer.png');
+		background-image: url('../images/merge-region.png');
 		cursor: pointer;
-		vertical-align: bottom;
+	}
+
+	.gui .unmerge-regions {
+		display: inline-block;
+		width: 13px;
+		height: 16px;
+		margin-right: 4px;
+		background-image: url('../images/unmerge-regions.png');
+		cursor: pointer;
+	}
+
+	.gui .select-region {
+		width: 150px;
+	}
+	.gui .select-region select {
+		width: 100%;
+		background-color: #f5f5f5;
+		border: 1px solid #999;
+		color: #000;
 	}
 
 	.layer-label-text {
@@ -250,23 +266,32 @@ require_once('includes/auth-login.php');
 
 	.playlist-layer .playlist-layer-padding {
 		display: block;
-		height: 19px;
+		height: 20px;
 		border-bottom: 1px solid #000;
 		box-sizing: border-box;
 	}
 
-	.layer-segment-wrapper {
+	.layer-segment-list {
 		display: inline-block;
-		height: 19px;
+		height: 20px;
 		text-align: left;
 		border-left: 1px solid #000;
 		vertical-align: bottom;
+		box-sizing: border-box;
+	}
+
+	.col-resize + .layer-segment {
+		margin-left: -2px;
+	}
+
+	.col-resize + .layer-padding {
+		margin-left: -2px;
 	}
 
 	.layer-segment-empty {
 		display: inline-block;
 		background-color: #fff;
-		height: 19px;
+		height: 20px;
 		border-right: 1px solid #000;
 		border-bottom: 1px solid #000;
 		box-sizing: border-box;
@@ -280,7 +305,7 @@ require_once('includes/auth-login.php');
 	.layer-segment-keyframe {
 		display: inline-block;
 		background-color: #ddd;
-		height: 19px;
+		height: 20px;
 		border-right: 1px solid #000;
 		border-bottom: 1px solid #000;
 		box-sizing: border-box;
@@ -297,7 +322,7 @@ require_once('includes/auth-login.php');
 
 	.layer-padding {
 		display: inline-block;
-		height: 19px;
+		height: 20px;
 		vertical-align: bottom;
 	}
 
@@ -346,15 +371,16 @@ require_once('includes/auth-login.php');
 	.col-resize {
 		position: relative;
 		display: inline-block;
-		height: 18px;
-		width: 1px;
-		margin-left: 6px;
+		vertical-align: bottom;
+		margin-left: -3px;
+		width: 5px;
+		height: 20px;
 		cursor: col-resize;
-		z-index: 5;
+		z-index: 3;
 	}
 
 	.col-resize.active {
-		background-color: #000;
+		background-image: url('../images/col-resize.png');
 	}
 
 	/* PROPERTIES PANE */
@@ -416,7 +442,7 @@ require_once('includes/auth-login.php');
 		padding-right: 20px;
 	}
 
-	/* INSERT FRAME MODAL */
+	/* MODALS */
 
 	.modal-overlay {
 		position: fixed;
@@ -453,7 +479,7 @@ require_once('includes/auth-login.php');
 		box-sizing: border-box;
 	}
 
-	.modal-body {
+	.insert-frame-modal .modal-body {
 		height: 120px;
 		line-height: 40px;
 		padding-top: 20px;
@@ -501,6 +527,126 @@ require_once('includes/auth-login.php');
 	.modal-footer button:hover {
 		background-color: #ccc;
 	}
+
+	.choose-layout-modal {
+		position: absolute;
+		width: 300px;
+		height: 280px;
+		top: 50%;
+		left: 50%;
+		margin-left: -150px;
+		margin-top: -100px;
+		z-index: 5;
+		border: 1px solid #000;
+		background-color: #ddd;
+		box-sizing: border-box;
+	}
+	.choose-layout-modal .modal-body {
+		height: 200px;
+		line-height: 40px;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		border-bottom: 1px solid #bbb;
+		text-align: center;
+		box-sizing: border-box;
+	}
+	.choose-layout-modal .layout-list {
+		width: 250px;
+		height: 155px;
+		overflow-y: scroll;
+		margin: auto;
+		background-color: #fff;
+		border: 1px solid #bbb;
+		box-sizing: border-box;
+	}
+	.choose-layout-modal .layout-list .layout-item {
+		display: block;
+		width: 100%;
+		text-align: left;
+		cursor: pointer;
+		padding-left: 5px;
+		padding-right: 5px;
+		line-height: normal;
+		box-sizing: border-box;
+	}
+	.choose-layout-modal .layout-list .layout-item:hover {
+		background-color: #666;
+		color: #fff;
+	}
+	.choose-content-modal {
+		position: absolute;
+		width: 600px;
+		height: 380px;
+		top: 50%;
+		left: 50%;
+		margin-left: -300px;
+		margin-top: -150px;
+		z-index: 5;
+		border: 1px solid #000;
+		background-color: #ddd;
+		box-sizing: border-box;
+	}
+	.choose-content-modal .modal-body {
+		height: 300px;
+		line-height: 40px;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		border-bottom: 1px solid #bbb;
+		text-align: center;
+		box-sizing: border-box;
+	}
+	.choose-content-modal .content-list {
+		width: 500px;
+		height: 250px;
+		overflow-y: scroll;
+		margin: auto;
+		background-color: #fff;
+		border: 1px solid #bbb;
+		box-sizing: border-box;
+	}
+	.choose-content-modal .content-list:after {
+		content: '';
+		clear: both;
+		display: table;
+	}
+	.choose-content-modal .content-list .content-item {
+		width: 20%;
+		height: 100px;
+		cursor: pointer;
+		float: left;
+		background-size: cover;
+	}
+	.choose-content-modal .content-list .content-item:hover {
+		background-color: #666;
+		color: #fff;
+	}
+	/* LAYOUT PREVIEW */
+	.layout-preview {
+		height: 320px;
+		background-color: #f5f5f5;
+		padding: 20px;
+	}
+	.layout-canvas {
+		position: relative;
+		margin: auto;
+		border: 1px solid #000;
+	}
+	.layout-canvas .region {
+		background-size: cover;
+	}
+	.layout-canvas .region.transparent {
+		background-color: transparent !important;
+		opacity: 1 !important;
+	}
+	.save-button {
+		position: absolute;
+		top: 7px;
+		left: 25px;
+		width: 16px;
+		height: 16px;
+		background-image: url('../images/save.png');
+		cursor: pointer;
+	}
 	</style>
 </head>
 <body>
@@ -533,30 +679,11 @@ require_once('includes/auth-login.php');
 		</div>
 	</div>
 	<div class="gui" style="display: none;">
-		<div class="choose-layout-wrapper" style="position: fixed; top: 0; left: 0; display: table; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 5;">
-			<div class="choose-layout-content" style="display: table-cell; text-align: center; vertical-align: middle;">
-				<div class="choose-layout" style="display: inline-block; background-color: #eee; padding: 20px;">
-					<div class="header" style="display: block; width: 300px; text-align: left; font-size: 24px;">
-						Select Layout
-					</div>
-					<div class="layout-list">
-						<div class="layout-item" style="display: block; width: 300px; text-align: left;">
-							asdf
-						</div>
-						<div class="layout-item" style="display: block; width: 300px; text-align: left;">
-							asdf
-						</div>
-						<div class="layout-item" style="display: block; width: 300px; text-align: left;">
-							asdf
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="segment-marker" style="left: 150px; top: 28px; width: 11px; height: 20px;"></div>
+		<div class="segment-marker" style="left: 150px; top: 28px; width: 11px; height: 21px;"></div>
 		<div class="timeline-marker" style="left: 150px;">
 			<div class="timeline-marker-line" style="height: 20px;"></div>
 		</div>
+		<div class="save-button"></div>
 		<div class="ruler">
 			<div class="timeline">
 				<div class="timeline-label-wrapper">
@@ -597,24 +724,17 @@ require_once('includes/auth-login.php');
 		</div>
 		<div class="layers">
 			<div class="layer-labels">
-				<div class="layout-label selected">
-					<div class="layer-label-text">Layout</div>
-				</div>
 				<div class="layer-buttons">
-					<div class="new-playlist"></div><div class="new-layer"></div>
+					<div class="unmerge-regions" title="Unmerge Regions"></div><div class="merge-region" title="Merge Region"></div>
+				</div>
+				<div class="select-region">
+					<select>
+						<option class="disabled" value="" disabled selected>-Select Region-</option>
+					</select>
 				</div>
 			</div>
 			<div class="layer-timeline">
 				<div class="layer-timeline-body">
-					<div class="layer layer-layout">
-						<div class="layer-segment-wrapper">
-							<div class="layer-segment-keyframe" style="width: 600px;">
-								<div class="layer-segment-head"></div>
-								<div class="layer-segment-tail"><div class="col-resize"></div></div>
-							</div><!--
-						--><div class="layer-padding" style="width: 500px;"></div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -647,7 +767,34 @@ require_once('includes/auth-login.php');
 				</div>
 			</div>
 		</div>
-		<div class="modal-overlay" style="display: none;"></div>
+		<div class="layout-preview">
+			<div class="layout-canvas"></div>
+		</div>
+		<div class="modal-overlay"></div>
+		<div class="modal choose-layout-modal">
+			<div class="modal-header">
+				Choose Layout
+			</div>
+			<div class="modal-body">
+				<div class="layout-list">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="back-to-main">Cancel</button>
+			</div>
+		</div>
+		<div class="modal choose-content-modal" style="display: none;">
+			<div class="modal-header">
+				Choose Content
+			</div>
+			<div class="modal-body">
+				<div class="content-list">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="cancel-button">Cancel</button>
+			</div>
+		</div>
 		<div class="modal insert-frame-modal" style="display: none;">
 			<div class="modal-header">
 				Insert Frame(s)...
@@ -659,14 +806,6 @@ require_once('includes/auth-login.php');
 					</div>
 					<div class="column">
 						<input type="text" class="insert-frame-amount" value="1">
-					</div>
-				</div>
-				<div class="row">
-					<div class="column">
-						Second(s):
-					</div>
-					<div class="column">
-						<input type="text" class="insert-frame-seconds" value="0.1">
 					</div>
 				</div>
 			</div>

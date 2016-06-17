@@ -1,0 +1,207 @@
+{
+    "required_player_version": "1.00.00",
+    "layouts": [
+        {
+            "z_layoutid_pk": "14",
+            "name": "Asian Village Layout",
+            "width": "1080",
+            "height": "1920",
+            "regions": [
+                {
+                    "z_regionid_pk": "11",
+                    "z_layoutregionid_pk": "11",
+                    "z_layoutid_fk": "14",
+                    "name": "Menu Right",
+                    "width": "521",
+                    "height": "1140",
+                    "x": "540",
+                    "y": "555",
+                    "z": "1"
+                },
+                {
+                    "z_regionid_pk": "10",
+                    "z_layoutregionid_pk": "10",
+                    "z_layoutid_fk": "14",
+                    "name": "Menu Left",
+                    "width": "521",
+                    "height": "1140",
+                    "x": "19",
+                    "y": "555",
+                    "z": "2"
+                },
+                {
+                    "z_regionid_pk": "9",
+                    "z_layoutregionid_pk": "9",
+                    "z_layoutid_fk": "14",
+                    "name": "Footer",
+                    "width": "1017",
+                    "height": "201",
+                    "x": "31",
+                    "y": "1700",
+                    "z": "3"
+                },
+                {
+                    "z_regionid_pk": "7",
+                    "z_layoutregionid_pk": "7",
+                    "z_layoutid_fk": "14",
+                    "name": "Gallery",
+                    "width": "1080",
+                    "height": "513",
+                    "x": "0",
+                    "y": "96",
+                    "z": "4"
+                },
+                {
+                    "z_regionid_pk": "6",
+                    "z_layoutregionid_pk": "6",
+                    "z_layoutid_fk": "14",
+                    "name": "Skin",
+                    "width": "1080",
+                    "height": "1920",
+                    "x": "0",
+                    "y": "0",
+                    "z": "5"
+                }
+            ]
+        }
+    ],
+    "playlists": [
+        {
+            "entries": [
+                {
+                    "z_regionid_fk": "11",
+                    "z_contentid_fk": "19",
+                    "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/19.jpg",
+                    "duration": "1",
+                    "order_index": "0",
+                    "z_playlistentryid_pk": "51"
+                },
+                {
+                    "z_regionid_fk": "11",
+                    "z_contentid_fk": "18",
+                    "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/18.jpg",
+                    "duration": "1",
+                    "order_index": "1",
+                    "z_playlistentryid_pk": "52"
+                },
+                {
+                    "z_regionid_fk": "11",
+                    "z_contentid_fk": "17",
+                    "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/17.jpg",
+                    "duration": "1",
+                    "order_index": "2",
+                    "z_playlistentryid_pk": "53"
+                },
+                {
+                    "z_regionid_fk": "11",
+                    "z_contentid_fk": "16",
+                    "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/16.jpg",
+                    "duration": "1",
+                    "order_index": "3",
+                    "z_playlistentryid_pk": "54"
+                },
+                {
+                    "z_regionid_fk": "11",
+                    "z_contentid_fk": "15",
+                    "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/15.jpg",
+                    "duration": "1",
+                    "order_index": "4",
+                    "z_playlistentryid_pk": "55"
+                }
+            ],
+            "z_subplaylistid_pk": "41"
+        },
+        {
+            "entries": [
+                {
+                    "z_regionid_fk": "10",
+                    "z_contentid_fk": "14",
+                    "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/14.jpg",
+                    "duration": "1",
+                    "order_index": "0",
+                    "z_playlistentryid_pk": "56"
+                }
+            ],
+            "z_subplaylistid_pk": "42"
+        },
+        {
+            "entries": [
+                {
+                    "z_regionid_fk": "9",
+                    "z_contentid_fk": "20",
+                    "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/20.jpg",
+                    "duration": "1",
+                    "order_index": "0",
+                    "z_playlistentryid_pk": "57"
+                }
+            ],
+            "z_subplaylistid_pk": "43"
+        },
+        {
+            "entries": [
+                {
+                    "z_regionid_fk": "7",
+                    "z_contentid_fk": "9",
+                    "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/9.jpg",
+                    "duration": "1",
+                    "order_index": "0",
+                    "z_playlistentryid_pk": "58"
+                }
+            ],
+            "z_subplaylistid_pk": "44"
+        },
+        {
+            "entries": [
+                {
+                    "z_regionid_fk": "6",
+                    "z_contentid_fk": "21",
+                    "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/21.png",
+                    "duration": "1",
+                    "order_index": "0",
+                    "z_playlistentryid_pk": "59"
+                }
+            ],
+            "z_subplaylistid_pk": "45"
+        }
+    ],
+    "z_playlistid_pk": "0",
+    "last_modified": "2016-06-17 14:24:54",
+    "required_content": [
+        {
+            "z_contentid_pk": "19",
+            "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/19.jpg"
+        },
+        {
+            "z_contentid_pk": "18",
+            "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/18.jpg"
+        },
+        {
+            "z_contentid_pk": "17",
+            "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/17.jpg"
+        },
+        {
+            "z_contentid_pk": "16",
+            "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/16.jpg"
+        },
+        {
+            "z_contentid_pk": "15",
+            "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/15.jpg"
+        },
+        {
+            "z_contentid_pk": "14",
+            "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/14.jpg"
+        },
+        {
+            "z_contentid_pk": "20",
+            "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/20.jpg"
+        },
+        {
+            "z_contentid_pk": "9",
+            "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/9.jpg"
+        },
+        {
+            "z_contentid_pk": "21",
+            "url": "http:\/\/dmbdemo.com\/uno-x\/uploaded-content\/21.png"
+        }
+    ]
+}

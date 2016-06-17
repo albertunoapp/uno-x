@@ -269,6 +269,20 @@ a {
 	background-color: #999;
 }
 
+.button-list .button.drag-move {
+	color: #666 !important;
+	background-color: #fff !important;
+	cursor: pointer !important;
+	cursor: hand !important;
+	cursor: move !important;
+	cursor: grab !important; /* Note: browser uses the last cursor that it recognizes... */
+	cursor: -webkit-grab !important;
+	cursor: -moz-grab !important;
+	cursor: grabbing !important;
+	cursor: -webkit-grabbing !important;
+	cursor: -moz-grabbing !important;
+}
+
 .button-list .button.disabled {
 	color: #999 !important;
 	background-color: #666 !important;
@@ -447,6 +461,12 @@ a {
 	margin-top: 0;
 }
 
+.button-list.content-list .button.content-button.disabled {
+	width: 100%;
+	height: auto;
+	border: none;
+}
+
 .button-list.content-list .button.content-button.error {
 	width: 100%;
 	height: auto;
@@ -496,6 +516,7 @@ i.fa.fa-exclamation-triangle {
 .region {
 	position: absolute;
 	z-index: 2;
+	opacity: 0.8;
 }
 
 .blink {

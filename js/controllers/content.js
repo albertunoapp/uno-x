@@ -76,7 +76,7 @@ $(document).ready(function() {
 		if (!session.content_list) return;
 		for (var i = session.content_offset * 8; i < session.content_list.length && i < (session.content_offset * 8) + 8; i++) {
 			// Generate thumbnails
-			var $content_button = $('<a class="button content-button" href="' + session.content_list[i]['url'] + '" target="blank" style="background-image:url(\'' + session.content_list[i]['url'] + '\')"></a>')
+			var $content_button = $('<a class="button content-button" href="' + session.content_list[i]['url'] + '" target="_blank" style="background-image:url(\'' + session.content_list[i]['url'] + '\')"></a>')
 			if ($('.button-list.content-list .content-button').length) {
 				$('.button-list.content-list .content-button').last().after($content_button);
 			} else {

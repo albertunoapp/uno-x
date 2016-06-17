@@ -128,29 +128,31 @@ $(document).ready(function() {
 							session.divisor++;
 						}
 						$('.layout-canvas').css({
-							'width': session.current_layout.width / session.divisor,
-							'height': session.current_layout.height / session.divisor
+							'width': Math.round(session.current_layout.width / session.divisor),
+							'height': Math.round(session.current_layout.height / session.divisor)
 						});
 						var used_colors = [];
 						for (var i = 0; i < session.current_layout.regions.length; i++) {
 							var region = session.current_layout.regions[i];
 							var new_region_obj = new(secret())();
 							new_region_obj['z_layoutregionid_pk'] = region['z_layoutregionid_pk'];
+							new_region_obj['z_layoutid_fk'] = region['z_layoutid_fk'];
 							new_region_obj['z_regionid_pk'] = region['z_regionid_pk'];
 							new_region_obj['name'] = region['name'];
 							new_region_obj['width'] = region['width'];
 							new_region_obj['height'] = region['height'];
 							new_region_obj['x'] = region['x'];
 							new_region_obj['y'] = region['y'];
+							new_region_obj['z'] = region['z'];
 							var new_color = generateUniqueColor(used_colors);
 							used_colors.push(new_color);
 							var $new_region = $('<div class="region"></div>');
 							$new_region.css({
 								'background-color': new_color,
-								'width': parseInt(region.width) / session.divisor,
-								'height': parseInt(region.height) / session.divisor,
-								'left': parseInt(region.x) / session.divisor,
-								'top': parseInt(region.y) / session.divisor,
+								'width': Math.round(parseInt(region.width) / session.divisor),
+								'height': Math.round(parseInt(region.height) / session.divisor),
+								'left': Math.round(parseInt(region.x) / session.divisor),
+								'top': Math.round(parseInt(region.y) / session.divisor),
 								'z-index': parseInt(region.z)
 							});
 							$('.layout-canvas').append($new_region);
@@ -325,8 +327,8 @@ $(document).ready(function() {
 			session.divisor++;
 		}
 		$('.layout-canvas').css({
-			'width': session.current_layout.width / session.divisor,
-			'height': session.current_layout.height / session.divisor
+			'width': Math.round(session.current_layout.width / session.divisor),
+			'height': Math.round(session.current_layout.height / session.divisor)
 		});
 	});
 
@@ -380,10 +382,10 @@ $(document).ready(function() {
 
 		var $ghost_region = $('<div class="region blink"></div>').css({
 			'background-color': '#000',
-			'top': parseInt($('.region-y:visible').val()) / session.divisor,
-			'left': parseInt($('.region-x:visible').val()) / session.divisor,
-			'width': parseInt($('.region-width:visible').val()) / session.divisor,
-			'height': parseInt($('.region-height:visible').val()) / session.divisor,
+			'top': Math.round(parseInt($('.region-y:visible').val()) / session.divisor),
+			'left': Math.round(parseInt($('.region-x:visible').val()) / session.divisor),
+			'width': Math.round(parseInt($('.region-width:visible').val()) / session.divisor),
+			'height': Math.round(parseInt($('.region-height:visible').val()) / session.divisor),
 			'z-index': 999
 		});
 		if (session.current_region_index != null) {
@@ -392,10 +394,10 @@ $(document).ready(function() {
 				$ghost_region = current_region.constructor('$region');
 				$ghost_region.addClass('blink');
 				$ghost_region.css({
-					'top': parseInt($('.region-y:visible').val()) / session.divisor,
-					'left': parseInt($('.region-x:visible').val()) / session.divisor,
-					'width': parseInt($('.region-width:visible').val()) / session.divisor,
-					'height': parseInt($('.region-height:visible').val()) / session.divisor,
+					'top': Math.round(parseInt($('.region-y:visible').val()) / session.divisor),
+					'left': Math.round(parseInt($('.region-x:visible').val()) / session.divisor),
+					'width': Math.round(parseInt($('.region-width:visible').val()) / session.divisor),
+					'height': Math.round(parseInt($('.region-height:visible').val()) / session.divisor),
 					'z-index': 999
 				});
 			}
@@ -530,10 +532,10 @@ $(document).ready(function() {
 		var $new_region = $('<div class="region"></div>');
 		$new_region.css({
 			'background-color': new_color,
-			'width': parseInt($('.region-width:visible').val()) / session.divisor,
-			'height': parseInt($('.region-height:visible').val()) / session.divisor,
-			'left': parseInt($('.region-x:visible').val()) / session.divisor,
-			'top': parseInt($('.region-y:visible').val()) / session.divisor
+			'width': Math.round(parseInt($('.region-width:visible').val()) / session.divisor),
+			'height': Math.round(parseInt($('.region-height:visible').val()) / session.divisor),
+			'left': Math.round(parseInt($('.region-x:visible').val()) / session.divisor),
+			'top': Math.round(parseInt($('.region-y:visible').val()) / session.divisor)
 		});
 		$('.layout-canvas').append($new_region);
 		var new_z = 1;
@@ -567,6 +569,45 @@ $(document).ready(function() {
 	});
 
 	// Edit region
+	$(document).mousemove(function(e) {
+		// Sort regions via drag and drop
+		if ($('.region-button.drag').length) {
+			if (e.stopPropagation) e.stopPropagation(); // Prevent text selection
+			if (e.preventDefault) e.preventDefault(); // Prevent text selection
+			$('.region-button.drag').addClass('drag-move').addClass('no-click');
+			var $destination = $();
+			$('.region-button').each(function() {
+				if (e.pageY > $(this).position().top) {
+					$destination = $(this);
+				}
+			});
+			if ($destination.length && !$destination.is($('.region-button.drag'))) {
+				if ($destination.index() > $('.region-button.drag').index()) {
+					$destination.after($('.region-button.drag'));
+				} else {
+					$destination.before($('.region-button.drag'));
+				}
+				// Update region objects and dom elements
+				var updated_regions = [];
+				$('.region-button').each(function() {
+					var new_index = $('.region-button').length - 1 - $(this).index();
+					updated_regions[new_index] = session.current_layout.regions[$(this).data('index')];
+					$(this).data('index', new_index);
+					updated_regions[new_index].z = new_index + 1;
+					updated_regions[new_index].constructor('$region').css('z-index', updated_regions[new_index].z);
+				});
+				session.current_layout.regions = updated_regions;
+				session.current_layout.dirty = true;
+				$('.button-list.layout-editor-main .save').removeClass('disabled');
+			}
+		}
+	});
+	$(document).mouseup(function() {
+		// Sort regions via drag and drop
+		if ($('.region-button.drag').length) {
+			$('.region-button.drag').removeClass('drag').removeClass('drag-move');
+		}
+	});
 	$('.button-list.layout-editor-main .edit-region').click(function() {
 		if (session.current_layout.regions.length == 0) {
 			alert('No regions to edit!');
@@ -578,7 +619,14 @@ $(document).ready(function() {
 		$('.button-list.region-list .region-button').remove();
 		for (var i = 0; i < session.current_layout.regions.length; i++) {
 			var $region_button = $('<div class="button region-button" data-index="' + i + '">' + session.current_layout.regions[i].name + '</div>')
+			$region_button.mousedown(function(e) {
+				// Left mouse button down
+				if (e.which == 1) {
+					$(this).addClass('drag').removeClass('no-click');
+				}
+			});
 			$region_button.click(function() {
+				if ($(this).hasClass('no-click')) return; // If dragged, don't register "click"
 				session.current_region_index = $(this).data('index');
 				var current_region = session.current_layout.regions[session.current_region_index];
 				$('.sub-header').text('Edit Region');
@@ -596,9 +644,30 @@ $(document).ready(function() {
 					$ghost_region.css('z-index', 999);
 				}
 			});
-			// TODO: Add ability to sort regions, which should modify z-index accordingly.
 			$('.button-list.region-list').prepend($region_button);
 		}
+	});
+	$('.button-list.edit-region .button.delete-region').click(function() {
+		var current_region = session.current_layout.regions[session.current_region_index];
+		// If this region was previously saved, queue it for deletion on the server
+		if (current_region['z_regionid_pk']) {
+			if (!session.current_layout.deleted_regions) session.current_layout.deleted_regions = [];
+			session.current_layout.deleted_regions.push(current_region);
+		}
+		// Remove all instances of the region from the current layout and preview
+		current_region.constructor('$region').remove();
+		session.current_layout.regions.splice(session.current_region_index, 1);
+		for (var i = 0; i < session.current_layout.regions.length; i++) {
+			var region = session.current_layout.regions[i];
+			region.z = i + 1;
+			region.constructor('$region').css('z-index', region.z);
+		}
+		$('.sub-header').text('Main');
+		$('.region-name:visible').val('Untitled Region');
+		$('.button-list').hide();
+		$('.button-list.layout-editor-main').show();
+		session.current_layout.dirty = true;
+		$('.button-list.layout-editor-main .save').removeClass('disabled');
 	});
 	$('.button-list.region-list .button.cancel').click(function() {
 		$('.sub-header').text('Main');
@@ -654,10 +723,10 @@ $(document).ready(function() {
 		$('.button-list').hide();
 		$('.button-list.layout-editor-main').show();
 		$('.region.blink').css({
-			'width': current_region.width / session.divisor,
-			'height': current_region.height / session.divisor,
-			'left': current_region.x / session.divisor,
-			'top': current_region.y / session.divisor,
+			'width': Math.round(current_region.width / session.divisor),
+			'height': Math.round(current_region.height / session.divisor),
+			'left': Math.round(current_region.x / session.divisor),
+			'top': Math.round(current_region.y / session.divisor),
 			'z-index': current_region.z
 		}).removeClass('blink');
 	});

@@ -144,4 +144,5 @@ $(document).keydown(function(e) {
 	checkBuffer('aaron', function() { $('body').css('background-image', 'url("https://media.giphy.com/media/Vuw9m5wXviFIQ/giphy.gif")').css('background-size', 'cover'); });
 	checkBuffer('jesse', function() { $('body').css('background-image', 'url("http://25.media.tumblr.com/tumblr_lm59mleifE1qkc0g1o1_1280.jpg")').css('background-size', 'cover'); });
 	checkBuffer('trump', function() { $('body').css('background-image', 'url("http://images.dmbdemo.com/boxdata/asset22887/images/giphy.gif?r=160429014117")').css('background-size', 'cover'); });
+	checkBuffer('bees', function() { $('body').css('background-image', 'url("https://media.giphy.com/media/dcubXtnbck0RG/giphy.gif")').css('background-size', 'cover'); });
 });

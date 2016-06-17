@@ -148,6 +148,9 @@ require_once('includes/auth-login.php');
 					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 					<input type="text" class="region-height" placeholder="Height in pixels" maxlength="5">
 				</div>
+				<div class="button delete-region">
+					Delete Region
+				</div>
 				<div class="button button-left ok">
 					OK
 				</div>
