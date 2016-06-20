@@ -47,7 +47,7 @@ function generateUniqueColor(used_color_list) {
 
 $(document).ready(function() {
 	var constants = {
-		'playList_version': '1.00.00',
+		'playlist_version': '1.00.00',
 		'required_player_version': '1.00.00'
 	};
 	var session = {};
